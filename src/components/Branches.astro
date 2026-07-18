@@ -1,14 +1,17 @@
 ---
-const branches = [
-  { number: '01', title: 'Северо-Запад', address: 'ул. Молодогвардейцев, 39В' },
-  { number: '02', title: 'Университетская Набережная', address: 'ул. Университетская Набережная, 48' },
-];
+import { branches as branchData, type BranchId } from '../data/programs';
+
+const branchIds: BranchId[] = ['branch-1', 'branch-2'];
+const branchCards = branchIds.map((id, index) => ({
+  ...branchData[id],
+  number: String(index + 1).padStart(2, '0'),
+}));
 ---
 <section id="branches" class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]">
   <div class="container-site">
     <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end"><div class="max-w-2xl"><p class="eyebrow">Два филиала</p><h2 class="headline mt-4">Выберите удобный адрес</h2></div><a class="button-secondary" href="/contacts/">Все контакты</a></div>
     <div class="mt-10 grid gap-5 md:grid-cols-2">
-      {branches.map((branch, index) => <article class:list={["paper-card relative overflow-hidden rounded-[2rem] p-6 md:p-8", index ? 'bg-[#dceef2] rotate-[.5deg]' : 'bg-[#fff0bd] rotate-[-.5deg]']}><span class="grid size-12 place-items-center rounded-full bg-brand text-sm font-black text-white">{branch.number}</span><div class="mt-12"><h3 class="text-2xl font-black">{branch.title}</h3><address class="mt-3 not-italic text-lg text-muted">{branch.address}</address></div><span class="absolute -right-10 -top-10 size-40 rounded-full bg-warm/25"></span></article>)}
+      {branchCards.map((branch, index) => <article class:list={["paper-card relative overflow-hidden rounded-[2rem] p-6 md:p-8", index ? 'bg-[#dceef2] rotate-[.5deg]' : 'bg-[#fff0bd] rotate-[-.5deg]']}><span class="grid size-12 place-items-center rounded-full bg-brand text-sm font-black text-white">{branch.number}</span><div class="mt-12"><h3 class="text-2xl font-black">{branch.shortName}</h3><address class="mt-3 not-italic text-lg text-muted">{branch.address}</address></div><span class="absolute -right-10 -top-10 size-40 rounded-full bg-warm/25"></span></article>)}
     </div>
   </div>
 </section>

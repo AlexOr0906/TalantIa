@@ -43,6 +43,13 @@ const nav = [
     menuSummary?.setAttribute('aria-label', mobileMenu.open ? 'Закрыть меню' : 'Открыть меню');
   });
 
+  menuSummary?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (mobileMenu) mobileMenu.open = !mobileMenu.open;
+    }
+  });
+
   mobileMenu?.addEventListener('click', (event) => {
     if ((event.target as HTMLElement).closest('a')) mobileMenu.open = false;
   });
