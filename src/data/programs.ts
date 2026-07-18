@@ -20,6 +20,7 @@ export interface AgeGroup {
 export interface Branch {
   id: BranchId;
   shortName: string;
+  city: string;
   address: string;
 }
 
@@ -77,8 +78,8 @@ const emptyDetails = {
 };
 
 export const branches: Record<BranchId, Branch> = {
-  'branch-1': { id: 'branch-1', shortName: 'Молодогвардейцев', address: 'ул. Молодогвардейцев, 39В' },
-  'branch-2': { id: 'branch-2', shortName: 'Университетская Набережная', address: 'ул. Университетская Набережная, 48' },
+  'branch-1': { id: 'branch-1', shortName: 'Молодогвардейцев', city: 'Челябинск', address: 'ул. Молодогвардейцев, 39В' },
+  'branch-2': { id: 'branch-2', shortName: 'Университетская Набережная', city: 'Челябинск', address: 'ул. Университетская Набережная, 48' },
 };
 
 const fromAge = (minAge: number): AgeGroup[] => [{ minAge, maxAge: null }];
