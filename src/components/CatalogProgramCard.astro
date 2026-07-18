@@ -40,7 +40,7 @@ const formatLabel = program.formats.includes('group') && program.formats.include
       ? 'Экспресс-курс'
       : null;
 const metaLabels = [ageLabel, branchLabel, program.launchNote ?? formatLabel].filter(Boolean).slice(0, 3);
-const detailsHref = program.detailAvailable ? `/programs/${program.slug}/` : '#consultation';
+const detailsHref = `/programs/${program.slug}/`;
 ---
 <article
   class:list={[

@@ -1,0 +1,34 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProgramHero from '../../components/program-detail/ProgramHero.astro';
+import ProgramFacts from '../../components/program-detail/ProgramFacts.astro';
+import ProgramDescription from '../../components/program-detail/ProgramDescription.astro';
+import ProgramGallery from '../../components/program-detail/ProgramGallery.astro';
+import ProgramLocations from '../../components/program-detail/ProgramLocations.astro';
+import ProgramCTA from '../../components/program-detail/ProgramCTA.astro';
+import { programs, type Program } from '../../data/programs';
+
+export const getStaticPaths = (() => programs
+  .filter((program) => program.status === 'active' || program.status === 'planned')
+  .map((program) => ({ params: { slug: program.slug }, props: { program } }))) satisfies GetStaticPaths;
+
+interface Props { program: Program; }
+const { program } = Astro.props;
+const title = program.seoTitle ?? `${program.title} — ТАЛАНТиЯ`;
+const description = program.seoDescription ?? program.shortDescription ?? program.title;
+---
+<Layout title={title} description={description}>
+  <Header />
+  <main id="top">
+    <ProgramHero program={program} />
+    <ProgramFacts program={program} />
+    <ProgramDescription eyebrow={program.title} text={program.longDescription} note={program.descriptionNote} />
+    <ProgramGallery images={program.gallery} />
+    <ProgramLocations branchIds={program.branches} primaryBranch={program.primaryBranch} />
+    <ProgramCTA />
+  </main>
+  <Footer />
+</Layout>

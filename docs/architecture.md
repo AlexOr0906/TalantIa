@@ -16,7 +16,7 @@
 
 - `src/layouts/Layout.astro` — HTML-каркас, метаданные и глобальные стили;
 - `src/pages/index.astro` — композиция главной страницы;
-- `src/pages/programs/art-studiya.astro` — первая подтверждённая детальная страница программы;
+- `src/pages/programs/[slug].astro` — единый динамический маршрут детальных страниц программ;
 - `src/components/*` — изолированные смысловые секции;
 - `src/components/program-detail/*` — переиспользуемые блоки детальной страницы программы;
 - `src/data/programs.ts` — единый тип `Program` и данные карточек;
@@ -29,7 +29,7 @@
 
 Предусмотрены: структурированный `ageGroups` с `minAge` и `maxAge`, `audience`, массив стабильных идентификаторов `branches`, необязательный `primaryBranch`, массив `formats`, `launchNote`, а также `duration`, `groupSize`, `schedule`, `price`, `trialLesson`, `results` и `status`. Неподтверждённые верхние границы возраста хранятся как `maxAge: null`. Поле педагога исключено из публичной модели `Program`: имена, фотографии, образование и опыт педагогов на сайте не публикуются.
 
-Детальные страницы используют необязательные `longDescription`, `activities`, `gallery`, `heroImage`, `locationNote`, `seoTitle`, `seoDescription` и `detailAvailable`. Каталог создаёт ссылку на страницу только при `detailAvailable: true`; остальные карточки ведут к существующему телефонному CTA. Canonical можно подключить через Layout после определения production-домена, поэтому сейчас неправильный URL не публикуется.
+Детальные страницы используют необязательные `longDescription`, `descriptionNote`, `activities`, `gallery`, `heroImage`, `locationNote`, `seoTitle` и `seoDescription`. Единый маршрут `src/pages/programs/[slug].astro` через `getStaticPaths` создаёт страницы только для статусов `active` и `planned`. Каталог ведёт на гарантированно созданные страницы, а компоненты не проверяют конкретные slug. Черновой статус текста хранится во внутреннем поле `shortDescriptionStatus` и не показывается посетителям. Canonical можно подключить через Layout после определения production-домена, поэтому сейчас неправильный URL не публикуется.
 
 Филиалы описаны отдельным справочником: `branch-1` — Молодогвардейцев, 39В; `branch-2` — Университетская Набережная, 48. Это отделяет стабильные идентификаторы от отображаемых названий и адресов.
 

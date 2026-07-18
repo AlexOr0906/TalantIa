@@ -2,10 +2,31 @@
 import { branches, type Program } from '../../data/programs';
 interface Props { program: Program; additionalFacts?: Array<{ label: string; value: string }>; }
 const { program, additionalFacts = [] } = Astro.props;
+const ageFact = program.audience === 'adults'
+  ? { label: 'Аудитория', value: 'Для взрослых' }
+  : program.ageGroups[0]
+    ? { label: 'Возраст', value: `С ${program.ageGroups[0].minAge} лет` }
+    : null;
+const branchFact = program.branches.length === 2
+  ? { label: 'Филиалы', value: 'Оба филиала' }
+  : program.branches[0]
+    ? { label: 'Филиал', value: branches[program.branches[0]].shortName }
+    : null;
+const formatValue = program.formats.includes('group') && program.formats.includes('individual')
+  ? 'В группах и индивидуально'
+  : program.formats.includes('individual')
+    ? 'Индивидуально'
+    : program.formats.includes('express')
+      ? 'Экспресс-курс'
+      : program.formats.includes('regular')
+        ? 'Регулярные занятия'
+        : null;
 const facts = [
-  program.ageGroups[0] ? { label: 'Возраст', value: `С ${program.ageGroups[0].minAge} лет` } : null,
+  ageFact,
+  branchFact,
+  formatValue ? { label: 'Формат', value: formatValue } : null,
+  program.status === 'planned' && program.launchNote ? { label: 'Запуск', value: program.launchNote } : null,
   ...additionalFacts,
-  program.branches.length === 2 ? { label: 'Филиалы', value: 'Оба филиала' } : null,
   program.primaryBranch ? { label: 'Основная площадка', value: branches[program.primaryBranch].shortName } : null,
 ].filter(Boolean) as Array<{ label: string; value: string }>;
 ---

@@ -1,7 +1,7 @@
 export type ProgramStatus = 'active' | 'planned' | 'archived';
 export type BranchId = 'branch-1' | 'branch-2';
 export type ProgramAudience = 'children' | 'adults';
-export type ProgramFormat = 'group' | 'individual' | 'express';
+export type ProgramFormat = 'group' | 'individual' | 'express' | 'regular';
 
 export type ProgramCategory =
   | 'Развитие и учёба'
@@ -51,13 +51,13 @@ export interface Program {
   audience: ProgramAudience;
   launchNote?: string;
   longDescription?: string;
+  descriptionNote?: string;
   activities?: string[];
   gallery?: ProgramImage[];
   heroImage?: ProgramImage;
   locationNote?: string;
   seoTitle?: string;
   seoDescription?: string;
-  detailAvailable?: boolean;
   accent: 'red' | 'orange' | 'gold' | 'coral';
   featured?: boolean;
 }
@@ -222,7 +222,9 @@ export const programs: Program[] = [
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     primaryBranch: 'branch-2',
+    formats: ['regular'],
     longDescription: 'На регулярных занятиях дети рисуют, знакомятся с искусством и пробуют разные художественные техники.',
+    descriptionNote: 'Арт-студия — самостоятельное регулярное направление и отличается от творческой мастерской.',
     heroImage: {
       src: '/images/catalog-art-studio.webp',
       alt: 'Дети показывают рисунки, созданные на занятии арт-студии',
@@ -232,7 +234,6 @@ export const programs: Program[] = [
     locationNote: 'Основные занятия проходят на Университетской Набережной.',
     seoTitle: 'Арт-студия для детей с 6 лет — ТАЛАНТиЯ, Челябинск',
     seoDescription: 'Регулярные занятия рисованием для детей с 6 лет в двух филиалах центра «ТАЛАНТиЯ» в Челябинске.',
-    detailAvailable: true,
     accent: 'coral',
     featured: true,
   },
