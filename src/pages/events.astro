@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PhoneCTA from '../components/PhoneCTA.astro';
+import { branches, type BranchId } from '../data/programs';
+
+const branchIds = Object.keys(branches) as BranchId[];
+---
+<Layout title="Праздники и мастер-классы — ТАЛАНТиЯ" description="Детские праздники и творческие мастер-классы в центре «ТАЛАНТиЯ» в Челябинске.">
+  <Header />
+  <main id="top">
+    <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
+      <div class="container-site">
+        <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Праздники и мастер-классы' }]} />
+        <div class="mt-8 grid items-center gap-12 lg:grid-cols-[1fr_.85fr]">
+          <div>
+            <p class="eyebrow">Творческие события</p>
+            <h1 class="headline mt-5">Праздники и мастер-классы</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">В центре проводят детские праздники и мастер-классы. Подходящий формат выбирается в разговоре с учётом повода и интересов детей.</p>
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a class="button-primary" href="tel:+79193335835">Обсудить событие</a>
+              <a class="button-secondary" href="/programs/">Регулярные занятия</a>
+            </div>
+          </div>
+          <figure class="paper-card overflow-hidden rounded-[2rem] bg-sand rotate-[1deg]">
+            <img src="/images/art-studio-gallery.webp" alt="Дети участвуют в творческом мероприятии центра «ТАЛАНТиЯ»" width="1200" height="675" class="h-auto w-full object-cover" decoding="async" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space bg-[#fffdf6]" aria-labelledby="event-formats-title">
+      <div class="container-site">
+        <p class="eyebrow">Форматы</p>
+        <h2 id="event-formats-title" class="headline mt-4">Выберите повод для встречи</h2>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          <article class="paper-card rounded-[2rem] bg-[#f6ced1] p-7 md:p-10">
+            <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">★</span>
+            <h3 class="mt-6 text-3xl font-black">Детские праздники</h3>
+            <p class="mt-4 text-lg leading-8 text-muted">Формат праздника обсуждается заранее: центр помогает выбрать подходящий вариант для события.</p>
+          </article>
+          <article class="paper-card rounded-[2rem] bg-[#ffe0ad] p-7 md:p-10">
+            <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">✦</span>
+            <h3 class="mt-6 text-3xl font-black">Мастер-классы</h3>
+            <p class="mt-4 text-lg leading-8 text-muted">Творческие встречи с разными материалами и техниками. Конкретный формат подбирается при разговоре.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space" aria-labelledby="events-process-title">
+      <div class="container-site grid gap-8 lg:grid-cols-[.7fr_1fr] lg:gap-16">
+        <div><p class="eyebrow">Как начать</p><h2 id="events-process-title" class="headline mt-4">Расскажите о вашем событии</h2></div>
+        <div class="paper-card rounded-[2rem] bg-cream p-7 md:p-10">
+          <p class="text-xl font-bold leading-9 md:text-2xl">Позвоните в центр и расскажите о поводе. В разговоре можно выбрать формат и получить актуальные условия.</p>
+          <a class="button-primary mt-7" href="tel:+79193335835">Позвонить +7 (919) 333-58-35</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]" aria-labelledby="events-locations-title">
+      <div class="container-site">
+        <p class="eyebrow">Адреса центра</p>
+        <h2 id="events-locations-title" class="headline mt-4">Два филиала в Челябинске</h2>
+        <div class="mt-10 grid gap-5 md:grid-cols-2">
+          {branchIds.map((branchId) => <article class="paper-card rounded-[2rem] bg-cream p-7 md:p-9"><h3 class="text-2xl font-black">{branches[branchId].shortName}</h3><address class="mt-4 not-italic text-lg leading-7 text-muted">г. {branches[branchId].city}, {branches[branchId].address}</address></article>)}
+        </div>
+      </div>
+    </section>
+
+    <PhoneCTA title="Обсудим праздник или мастер-класс" text="Позвоните — расскажем об актуальных форматах и поможем выбрать подходящий вариант." secondaryHref="/programs/" secondaryLabel="Смотреть регулярные занятия" />
+  </main>
+  <Footer />
+</Layout>

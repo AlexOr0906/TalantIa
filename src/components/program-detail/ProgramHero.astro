@@ -1,0 +1,78 @@
+---
+import { branches, type Program } from '../../data/programs';
+
+interface Props { program: Program; }
+const { program } = Astro.props;
+const age = program.audience === 'adults'
+  ? 'Для взрослых'
+  : program.ageGroups[0]
+    ? `С ${program.ageGroups[0].minAge} лет`
+    : null;
+const branchLabel = program.branches.length === 2
+  ? 'Оба филиала'
+  : program.branches[0]
+    ? branches[program.branches[0]].shortName
+    : null;
+const formatLabel = program.formats.includes('group') && program.formats.includes('individual')
+  ? 'В группах и индивидуально'
+  : program.formats.includes('individual')
+    ? 'Индивидуально'
+    : program.formats.includes('express')
+      ? 'Экспресс-курс'
+      : program.formats.includes('regular')
+        ? 'Регулярные занятия'
+        : null;
+const heroLabels = [age, branchLabel, formatLabel, program.launchNote].filter(Boolean).slice(0, 4);
+const decorativeAccent = {
+  red: 'bg-[#f6ced1]',
+  orange: 'bg-[#ffe0ad]',
+  gold: 'bg-[#f7e796]',
+  coral: 'bg-[#cce8d0]',
+}[program.accent];
+---
+<section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
+  <div class="absolute left-0 top-28 h-5 w-28 -rotate-3 bg-leaf/35" aria-hidden="true"></div>
+  <div class="absolute -right-12 top-24 size-40 rounded-full border-[18px] border-sky/20" aria-hidden="true"></div>
+  <div class="container-site">
+    <nav aria-label="Хлебные крошки">
+      <ol class="flex min-h-11 flex-wrap items-center gap-2 text-sm font-bold text-muted">
+        <li><a class="rounded-lg hover:text-brand" href="/">Главная</a></li>
+        <li aria-hidden="true">→</li>
+        <li><a class="rounded-lg hover:text-brand" href="/programs/">Направления</a></li>
+        <li aria-hidden="true">→</li>
+        <li aria-current="page" class="text-ink">{program.title}</li>
+      </ol>
+    </nav>
+
+    <div class="mt-8 grid items-center gap-12 lg:grid-cols-[1fr_.82fr]">
+      <div>
+        <p class="eyebrow">{program.category}</p>
+        <h1 class="headline mt-5">{program.title}</h1>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {heroLabels.map((label) => <span class="rounded-full border-2 border-[#d7c39c] bg-white px-4 py-2 text-sm font-extrabold">{label}</span>)}
+        </div>
+        {program.locationNote && <p class="mt-4 max-w-xl text-sm font-bold text-muted">{program.locationNote}</p>}
+        {program.shortDescription && <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">{program.shortDescription}</p>}
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a class="button-primary" href="tel:+79193335835">Позвонить и записаться</a>
+          <a class="button-secondary" href="/programs/">Все направления</a>
+        </div>
+      </div>
+      {program.heroImage && (
+        <figure class="paper-card relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-[2rem] bg-sand rotate-[1deg]">
+          <img src={program.heroImage.src} alt={program.heroImage.alt} width={program.heroImage.width} height={program.heroImage.height} class="h-full w-full object-cover" decoding="async" />
+          <figcaption class="absolute bottom-4 left-4 rounded-full bg-[#fff3b5] px-4 py-2 text-sm font-black text-ink">Рисуем · смотрим · пробуем</figcaption>
+        </figure>
+      )}
+      {!program.heroImage && (
+        <div class:list={['paper-card relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-[2rem]', decorativeAccent]} aria-hidden="true">
+          <div class="absolute -right-12 -top-12 size-48 rounded-full border-[20px] border-white/70"></div>
+          <div class="absolute -bottom-16 -left-10 size-52 rotate-12 rounded-[3rem] bg-white/55"></div>
+          <div class="absolute left-[18%] top-[22%] size-24 rotate-[-8deg] rounded-[2rem] bg-brand/90 shadow-[5px_6px_0_rgba(75,55,35,.2)] md:size-32"></div>
+          <div class="absolute bottom-[20%] right-[18%] grid size-28 place-items-center rounded-full bg-[#fff3b5] text-5xl font-black text-brand shadow-[5px_6px_0_rgba(75,55,35,.2)] md:size-36">✦</div>
+          <span class="absolute bottom-5 left-1/2 w-max max-w-[85%] -translate-x-1/2 rounded-full bg-white/90 px-5 py-3 text-center text-sm font-black text-ink">Учимся · пробуем · создаём</span>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

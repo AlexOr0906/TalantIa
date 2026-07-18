@@ -1,0 +1,20 @@
+---
+import type { ProgramImage } from '../../data/programs';
+interface Props { images?: ProgramImage[]; }
+const { images = [] } = Astro.props;
+---
+{images.length > 0 && (
+  <section class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]" aria-labelledby="program-gallery-title">
+    <div class="container-site">
+      <p class="eyebrow">Творческие занятия</p>
+      <h2 id="program-gallery-title" class="headline mt-4">Галерея</h2>
+      <div class="mt-10 grid max-w-3xl gap-5 md:grid-cols-2">
+        {images.map((image) => (
+          <figure class="paper-card overflow-hidden rounded-[2rem] bg-sand">
+            <img src={image.src} alt={image.alt} width={image.width} height={image.height} class="h-auto w-full object-cover" loading="lazy" decoding="async" />
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

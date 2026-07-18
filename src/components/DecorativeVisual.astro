@@ -1,0 +1,12 @@
+---
+interface Props { label?: string; tone?: 'red' | 'orange' | 'gold' | 'green'; compact?: boolean; }
+const { label = 'Учимся · пробуем · создаём', tone = 'gold', compact = false } = Astro.props;
+const tones = { red: 'bg-[#f6ced1]', orange: 'bg-[#ffe0ad]', gold: 'bg-[#f7e796]', green: 'bg-[#cce8d0]' };
+---
+<div class:list={['paper-card relative w-full overflow-hidden rounded-[2rem]', compact ? 'aspect-[16/10]' : 'aspect-[4/3]', tones[tone]]} aria-hidden="true">
+  <div class="absolute -right-12 -top-12 size-48 rounded-full border-[20px] border-white/70"></div>
+  <div class="absolute -bottom-16 -left-10 size-52 rotate-12 rounded-[3rem] bg-white/55"></div>
+  <div class="absolute left-[18%] top-[22%] size-24 rotate-[-8deg] rounded-[2rem] bg-brand/90 shadow-[5px_6px_0_rgba(75,55,35,.2)] md:size-32"></div>
+  <div class="absolute bottom-[20%] right-[18%] grid size-28 place-items-center rounded-full bg-[#fff3b5] text-5xl font-black text-brand shadow-[5px_6px_0_rgba(75,55,35,.2)] md:size-36">✦</div>
+  <span class="absolute bottom-5 left-1/2 w-max max-w-[85%] -translate-x-1/2 rounded-full bg-white/90 px-5 py-3 text-center text-sm font-black text-ink">{label}</span>
+</div>

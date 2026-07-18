@@ -1,0 +1,12 @@
+---
+import { branches } from '../data/programs';
+const links = [['Направления', '/programs/'], ['Расписание и цены', '/schedule/'], ['Праздники', '/events/'], ['О центре', '/about/'], ['Контакты', '/contacts/']];
+---
+<footer class="border-t-4 border-brand bg-[#49392d] py-12 text-white">
+  <div class="container-site grid gap-10 md:grid-cols-2 lg:grid-cols-[1.1fr_.8fr_1.1fr]">
+    <div><img src="/images/talantiya-logo.png" alt="ТАЛАНТиЯ" class="h-24 w-auto rounded-xl bg-white p-1" width="253" height="159" /><p class="mt-3 text-sm text-white/65">Детский центр в Челябинске</p><a class="mt-4 flex min-h-11 items-center text-xl font-black hover:text-[#ffe28a]" href="tel:+79193335835">+7 (919) 333-58-35</a></div>
+    <nav aria-label="Навигация в подвале"><p class="text-xs font-black uppercase tracking-widest text-white/45">Разделы</p><ul class="mt-4 grid grid-cols-2 gap-x-4">{links.map(([label, href]) => <li><a class="flex min-h-11 items-center text-sm font-bold text-white/75 hover:text-white" href={href}>{label}</a></li>)}</ul></nav>
+    <div><p class="text-xs font-black uppercase tracking-widest text-white/45">Адреса</p><address class="mt-4 space-y-3 not-italic text-sm leading-6 text-white/75"><p>{branches['branch-1'].address}</p><p>{branches['branch-2'].address}</p></address><a class="mt-4 inline-flex min-h-11 items-center font-bold text-white/75 hover:text-white" href="https://vk.ru/74talantia" target="_blank" rel="noopener noreferrer">Официальная группа VK <span class="ml-2" aria-hidden="true">↗</span></a></div>
+  </div>
+  <div class="container-site mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/45 sm:flex-row sm:justify-between"><p>© 2026 «ТАЛАНТиЯ»</p><p class="flex min-h-11 items-center">Политика конфиденциальности</p></div>
+</footer>
