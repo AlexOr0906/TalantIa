@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import DecorativeVisual from '../components/DecorativeVisual.astro';
+import PhoneCTA from '../components/PhoneCTA.astro';
+import { branches, programs } from '../data/programs';
+
+const visiblePrograms = programs.filter((program) => program.status === 'active' || program.status === 'planned');
+const getAge = (program: typeof programs[number]) => program.audience === 'adults' ? 'Для взрослых' : program.ageGroups[0] ? `С ${program.ageGroups[0].minAge} лет` : null;
+const getBranches = (program: typeof programs[number]) => program.branches.length === 2 ? 'Оба филиала' : program.branches[0] ? branches[program.branches[0]].shortName : null;
+const getFormat = (program: typeof programs[number]) => program.formats.includes('group') && program.formats.includes('individual')
+  ? 'В группах и индивидуально'
+  : program.formats.includes('individual')
+    ? 'Индивидуально'
+    : program.formats.includes('express')
+      ? 'Экспресс-курс'
+      : program.formats.includes('regular')
+        ? 'Регулярные занятия'
+        : null;
+---
+<Layout title="Расписание и цены занятий — ТАЛАНТиЯ" description="Направления детского центра «ТАЛАНТиЯ» с подтверждёнными возрастами, филиалами и форматами занятий.">
+  <Header />
+  <main id="top">
+    <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
+      <div class="container-site">
+        <Breadcrumbs items={[{ label: 'Главная', href: '/' }, { label: 'Расписание и цены' }]} />
+        <div class="mt-8 grid items-center gap-12 lg:grid-cols-[1fr_.8fr]">
+          <div>
+            <p class="eyebrow">Выбор группы</p>
+            <h1 class="headline mt-5">Расписание и цены</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">Группы отличаются по возрасту и филиалу. Позвоните нам — подскажем актуальное время занятий, стоимость и наличие мест в подходящей группе.</p>
+            <a class="button-primary mt-8" href="tel:+79193335835">Узнать актуальные условия</a>
+          </div>
+          <DecorativeVisual label="Подберём удобную группу" tone="red" compact />
+        </div>
+      </div>
+    </section>
+
+    <section class="section-space bg-[#fffdf6]" aria-labelledby="schedule-programs-title">
+      <div class="container-site">
+        <p class="eyebrow">Актуальные направления</p>
+        <h2 id="schedule-programs-title" class="headline mt-4">Что можно выбрать</h2>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-muted">На карточках показаны только подтверждённые возраст, филиал и формат. Актуальное время и стоимость можно узнать по телефону.</p>
+        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {visiblePrograms.map((program) => {
+            const labels = [getAge(program), getBranches(program), getFormat(program), program.status === 'planned' ? program.launchNote : null].filter(Boolean);
+            return (
+              <article class="paper-card flex flex-col rounded-[1.75rem] bg-cream p-6">
+                <p class="text-xs font-black uppercase tracking-[.1em] text-brand">{program.category}</p>
+                <h3 class="mt-3 text-2xl font-black leading-tight">{program.title}</h3>
+                {labels.length > 0 && <div class="mt-4 flex flex-wrap gap-2">{labels.map((label) => <span class="rounded-full border border-[#d7c39c] bg-white px-3 py-1.5 text-xs font-extrabold">{label}</span>)}</div>}
+                <a class="mt-auto flex min-h-11 items-center gap-2 pt-6 font-extrabold text-brand hover:text-brand-dark" href={`/programs/${program.slug}/`}>О направлении <span aria-hidden="true">→</span></a>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <PhoneCTA title="Узнайте актуальное расписание и стоимость" text="Позвоните — подскажем время занятий и наличие мест в подходящей группе." secondaryHref="/programs/" secondaryLabel="Смотреть направления" />
+  </main>
+  <Footer />
+</Layout>
