@@ -3,6 +3,7 @@ dist/
 .astro/
 outputs/
 work/
+materials/
 .agents/
 .codex/
 .DS_Store
