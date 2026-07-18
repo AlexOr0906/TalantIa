@@ -1,0 +1,41 @@
+---
+import { programs } from '../data/programs';
+const accentClass = { red: 'bg-[#f6ced1] text-brand', orange: 'bg-[#ffe0ad] text-[#8f5210]', gold: 'bg-[#f7e796] text-[#6e5908]', coral: 'bg-[#cce8d0] text-[#476b25]' };
+const symbols = ['✎','A','♟','✂','Aa','⚗','▶','✦'];
+---
+<section id="programs" class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]">
+  <div class="container-site">
+    <div class="max-w-2xl"><p class="eyebrow">Популярные направления</p><h2 class="headline mt-4">Найдите занятие, которое увлечёт ребёнка</h2><p class="mt-5 text-lg leading-8 text-muted">Выберите направление по возрасту и интересам ребёнка.</p></div>
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {programs.map((program, index) => (
+        <article class:list={["paper-card group min-h-80 flex-col rounded-[1.75rem] bg-cream p-5 transition hover:-translate-y-1", index < 4 ? 'flex' : 'hidden sm:flex', index % 2 ? 'rotate-[.5deg]' : 'rotate-[-.5deg]']}>
+          <div class="flex items-start justify-between gap-3">
+            <span class:list={["rounded-full px-3 py-1.5 text-xs font-extrabold", accentClass[program.accent]]}>{program.category}</span>
+            <span class="grid size-12 place-items-center rounded-2xl bg-white text-2xl font-black text-brand shadow-sm">{symbols[index]}</span>
+          </div>
+          <h3 class="mt-7 text-2xl font-black tracking-tight">{program.title}</h3>
+          {program.ageGroups.length > 0 && <p class="mt-2 text-sm font-bold text-brand">{program.ageGroups.map((age) => age.label).join(' · ')}</p>}
+          <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>
+          <a class="mt-auto flex min-h-11 items-center gap-2 pt-5 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href="#consultation" aria-label={`Подробнее: ${program.title}`}>Подробнее</a>
+        </article>
+      ))}
+    </div>
+    <details class="mt-6 sm:hidden">
+      <summary class="button-secondary mx-auto cursor-pointer list-none px-6 text-center marker:content-none">Показать все направления</summary>
+      <div class="mt-6 grid gap-4">
+        {programs.slice(4).map((program, index) => (
+          <article class:list={["paper-card group flex min-h-80 flex-col rounded-[1.75rem] bg-cream p-5 transition hover:-translate-y-1", index % 2 ? 'rotate-[.5deg]' : 'rotate-[-.5deg]']}>
+            <div class="flex items-start justify-between gap-3">
+              <span class:list={["rounded-full px-3 py-1.5 text-xs font-extrabold", accentClass[program.accent]]}>{program.category}</span>
+              <span class="grid size-12 place-items-center rounded-2xl bg-white text-2xl font-black text-brand shadow-sm">{symbols[index + 4]}</span>
+            </div>
+            <h3 class="mt-7 text-2xl font-black tracking-tight">{program.title}</h3>
+            {program.ageGroups.length > 0 && <p class="mt-2 text-sm font-bold text-brand">{program.ageGroups.map((age) => age.label).join(' · ')}</p>}
+            <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>
+            <a class="mt-auto flex min-h-11 items-center gap-2 pt-5 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href="#consultation" aria-label={`Подробнее: ${program.title}`}>Подробнее</a>
+          </article>
+        ))}
+      </div>
+    </details>
+  </div>
+</section>

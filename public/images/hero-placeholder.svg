@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="783" viewBox="0 0 720 783" role="img" aria-labelledby="title desc">
+  <title id="title">Творческое детское пространство</title>
+  <desc id="desc">Раскрытая книга, цветные кубики, карандаш, воздушный змей, радуга и звёзды</desc>
+  <rect width="720" height="783" fill="#f5e5cb"/>
+  <circle cx="586" cy="130" r="106" fill="#f8b62d" opacity=".9"/>
+  <path d="M36 225C112 132 201 121 279 191s164 72 241 10 132-40 181 11" fill="none" stroke="#85b94d" stroke-width="22" stroke-linecap="round" opacity=".65"/>
+
+  <!-- kite -->
+  <path d="m514 70 82 78-80 91-79-89Z" fill="#5ab8d1" stroke="#6e5139" stroke-width="7" stroke-linejoin="round"/>
+  <path d="m514 70 2 169m-79-89 159-2" fill="none" stroke="#fff9e9" stroke-width="5"/>
+  <path d="M516 239c-45 42 42 57-4 100s29 60-10 95" fill="none" stroke="#6e5139" stroke-width="5" stroke-linecap="round"/>
+  <path d="m506 286-25 13 22 16m3 53 25 12-23 17" fill="#d22630" stroke="#6e5139" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- rainbow -->
+  <path d="M80 356c0-94 76-170 170-170s170 76 170 170" fill="none" stroke="#d22630" stroke-width="28"/>
+  <path d="M108 356c0-79 64-142 142-142s142 63 142 142" fill="none" stroke="#f28a45" stroke-width="28"/>
+  <path d="M136 356c0-63 51-114 114-114s114 51 114 114" fill="none" stroke="#f8cf4b" stroke-width="28"/>
+  <path d="M164 356c0-47 38-86 86-86s86 39 86 86" fill="none" stroke="#78a942" stroke-width="28"/>
+
+  <!-- open book -->
+  <path d="M87 474c112-38 210-17 274 59v183c-79-65-169-83-274-48Z" fill="#fffdf4" stroke="#6e5139" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M633 474c-112-38-210-17-272 59v183c78-65 168-83 272-48Z" fill="#fffdf4" stroke="#6e5139" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M361 533v183" stroke="#6e5139" stroke-width="7"/>
+  <path d="M128 523c72-17 137-3 191 38m-191 39c72-17 137-3 191 38m274-115c-72-17-137-3-191 38m191 39c-72-17-137-3-191 38" fill="none" stroke="#d8c9ad" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- letter blocks -->
+  <g transform="translate(111 407) rotate(-8)">
+    <rect width="106" height="106" rx="20" fill="#d22630" stroke="#6e5139" stroke-width="7"/>
+    <text x="53" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#fff">А</text>
+  </g>
+  <g transform="translate(224 389) rotate(6)">
+    <rect width="106" height="106" rx="20" fill="#78a942" stroke="#6e5139" stroke-width="7"/>
+    <text x="53" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#fff">Б</text>
+  </g>
+
+  <!-- pencil -->
+  <g transform="translate(502 390) rotate(17)">
+    <rect width="58" height="218" rx="22" fill="#f8b62d" stroke="#6e5139" stroke-width="7"/>
+    <path d="M0 173h58l-29 68Z" fill="#f1d7a8" stroke="#6e5139" stroke-width="7" stroke-linejoin="round"/>
+    <path d="m20 219 9 22 9-22Z" fill="#443426"/>
+    <path d="M0 44h58" stroke="#6e5139" stroke-width="7"/>
+    <rect width="58" height="43" rx="18" fill="#ef7f86"/>
+  </g>
+
+  <!-- stars and doodles -->
+  <g fill="#f8b62d" stroke="#6e5139" stroke-width="4" stroke-linejoin="round">
+    <path d="m74 104 12 24 27 4-20 19 5 27-24-13-24 13 5-27-20-19 27-4Z"/>
+    <path d="m639 321 8 16 18 3-13 12 3 18-16-9-16 9 3-18-13-12 18-3Z"/>
+  </g>
+  <path d="M601 688c31-38 69-38 98 0" fill="none" stroke="#5ab8d1" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="614" cy="661" r="10" fill="#d22630"/>
+  <circle cx="681" cy="661" r="10" fill="#78a942"/>
+</svg>
