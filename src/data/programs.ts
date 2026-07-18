@@ -23,6 +23,13 @@ export interface Branch {
   address: string;
 }
 
+export interface ProgramImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface Program {
   slug: string;
   title: string;
@@ -43,6 +50,14 @@ export interface Program {
   formats: ProgramFormat[];
   audience: ProgramAudience;
   launchNote?: string;
+  longDescription?: string;
+  activities?: string[];
+  gallery?: ProgramImage[];
+  heroImage?: ProgramImage;
+  locationNote?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  detailAvailable?: boolean;
   accent: 'red' | 'orange' | 'gold' | 'coral';
   featured?: boolean;
 }
@@ -207,6 +222,17 @@ export const programs: Program[] = [
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     primaryBranch: 'branch-2',
+    longDescription: 'На регулярных занятиях дети рисуют, знакомятся с искусством и пробуют разные художественные техники.',
+    heroImage: {
+      src: '/images/catalog-art-studio.webp',
+      alt: 'Дети показывают рисунки, созданные на занятии арт-студии',
+      width: 720,
+      height: 960,
+    },
+    locationNote: 'Основные занятия проходят на Университетской Набережной.',
+    seoTitle: 'Арт-студия для детей с 6 лет — ТАЛАНТиЯ, Челябинск',
+    seoDescription: 'Регулярные занятия рисованием для детей с 6 лет в двух филиалах центра «ТАЛАНТиЯ» в Челябинске.',
+    detailAvailable: true,
     accent: 'coral',
     featured: true,
   },

@@ -40,6 +40,7 @@ const formatLabel = program.formats.includes('group') && program.formats.include
       ? 'Экспресс-курс'
       : null;
 const metaLabels = [ageLabel, branchLabel, program.launchNote ?? formatLabel].filter(Boolean).slice(0, 3);
+const detailsHref = program.detailAvailable ? `/programs/${program.slug}/` : '#consultation';
 ---
 <article
   class:list={[
@@ -62,5 +63,5 @@ const metaLabels = [ageLabel, branchLabel, program.launchNote ?? formatLabel].fi
   )}
   {program.shortDescription && <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>}
   {program.primaryBranch && <p class="mt-3 text-xs leading-5 text-muted">Основные занятия — на Университетской Набережной</p>}
-  <a class="mt-auto flex min-h-11 items-center gap-2 pt-6 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href="#consultation" aria-label={`Узнать подробнее: ${program.title}`}>Узнать подробнее</a>
+  <a class="mt-auto flex min-h-11 items-center gap-2 pt-6 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href={detailsHref} aria-label={`Узнать подробнее: ${program.title}`}>Узнать подробнее</a>
 </article>

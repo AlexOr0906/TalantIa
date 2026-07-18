@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProgramHero from '../../components/program-detail/ProgramHero.astro';
+import ProgramFacts from '../../components/program-detail/ProgramFacts.astro';
+import ProgramDescription from '../../components/program-detail/ProgramDescription.astro';
+import ProgramLocations from '../../components/program-detail/ProgramLocations.astro';
+import ProgramCTA from '../../components/program-detail/ProgramCTA.astro';
+import { programs } from '../../data/programs';
+
+const program = programs.find((item) => item.detailAvailable && item.slug === 'art-studiya');
+if (!program) throw new Error('Данные страницы арт-студии не найдены');
+---
+<Layout title={program.seoTitle ?? program.title} description={program.seoDescription ?? program.shortDescription ?? program.title}>
+  <Header />
+  <main id="top">
+    <ProgramHero program={program} />
+    <ProgramFacts program={program} additionalFacts={[{ label: 'Формат', value: 'Регулярные занятия' }]} />
+    <ProgramDescription
+      eyebrow={program.title}
+      text={program.longDescription}
+      note="Арт-студия — самостоятельное регулярное направление и отличается от творческой мастерской."
+    />
+    <ProgramLocations branchIds={program.branches} primaryBranch={program.primaryBranch} />
+    <ProgramCTA />
+  </main>
+  <Footer />
+</Layout>

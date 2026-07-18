@@ -1,0 +1,15 @@
+---
+interface Props { title?: string; text?: string; eyebrow?: string; note?: string; }
+const { title = 'О занятиях', text, eyebrow, note } = Astro.props;
+---
+{text && (
+  <section class="section-space" aria-labelledby="program-description-title">
+    <div class="container-site grid gap-8 lg:grid-cols-[.6fr_1fr]">
+      <div>{eyebrow && <p class="eyebrow">{eyebrow}</p>}<h2 id="program-description-title" class="headline mt-4">{title}</h2></div>
+      <div class="paper-card rounded-[2rem] bg-cream p-7 md:p-10">
+        <p class="text-xl font-bold leading-9 text-ink md:text-2xl">{text}</p>
+        {note && <p class="mt-5 leading-7 text-muted">{note}</p>}
+      </div>
+    </div>
+  </section>
+)}

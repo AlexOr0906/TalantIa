@@ -1,0 +1,26 @@
+---
+import { branches, type Program } from '../../data/programs';
+interface Props { program: Program; additionalFacts?: Array<{ label: string; value: string }>; }
+const { program, additionalFacts = [] } = Astro.props;
+const facts = [
+  program.ageGroups[0] ? { label: 'Возраст', value: `С ${program.ageGroups[0].minAge} лет` } : null,
+  ...additionalFacts,
+  program.branches.length === 2 ? { label: 'Филиалы', value: 'Оба филиала' } : null,
+  program.primaryBranch ? { label: 'Основная площадка', value: branches[program.primaryBranch].shortName } : null,
+].filter(Boolean) as Array<{ label: string; value: string }>;
+---
+{facts.length > 0 && (
+  <section class="border-b-2 border-[#d3bd92] bg-[#fffdf6] py-10 md:py-14" aria-labelledby="program-facts-title">
+    <div class="container-site">
+      <h2 id="program-facts-title" class="sr-only">Основные факты</h2>
+      <dl class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {facts.map((fact) => (
+          <div class="paper-card rounded-[1.5rem] bg-cream p-5">
+            <dt class="text-xs font-black uppercase tracking-[.12em] text-brand">{fact.label}</dt>
+            <dd class="mt-3 text-lg font-black leading-snug">{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+)}
