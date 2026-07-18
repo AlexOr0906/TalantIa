@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import DecorativeVisual from '../components/DecorativeVisual.astro';
+---
+<Layout title="Страница не найдена — ТАЛАНТиЯ" description="Запрошенная страница не найдена. Вернитесь на главную или выберите направление занятий.">
+  <Header />
+  <main id="top">
+    <section class="section-space min-h-[65vh]" aria-labelledby="not-found-title">
+      <div class="container-site grid items-center gap-10 lg:grid-cols-[1fr_.75fr]">
+        <div>
+          <p class="eyebrow">Ошибка 404</p>
+          <h1 id="not-found-title" class="headline mt-5">Такой страницы нет</h1>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-muted md:text-xl">Возможно, адрес изменился или в ссылке есть ошибка. Вернитесь на главную или посмотрите актуальные направления.</p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a class="button-primary" href="/">На главную</a>
+            <a class="button-secondary" href="/programs/">Смотреть направления</a>
+          </div>
+          <p class="mt-8 text-lg font-bold">Можно позвонить: <a class="inline-flex min-h-11 items-center text-brand hover:text-brand-dark" href="tel:+79193335835">+7 (919) 333-58-35</a></p>
+        </div>
+        <DecorativeVisual label="Найдём нужное направление" tone="gold" compact />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

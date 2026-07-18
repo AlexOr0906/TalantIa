@@ -20,11 +20,11 @@ const nav = [
       <a class="button-primary" href="/#consultation">Записаться</a>
     </div>
     <details class="relative md:hidden" data-mobile-menu>
-      <summary class="relative z-30 grid size-11 cursor-pointer list-none place-items-center rounded-full border-2 border-[#7b6248] bg-white" aria-label="Открыть меню">
+      <summary class="relative z-30 grid size-11 cursor-pointer list-none place-items-center rounded-full border-2 border-[#7b6248] bg-white" aria-label="Открыть меню" aria-controls="mobile-navigation">
         <span class="text-xl leading-none">☰</span>
       </summary>
       <span class="fixed inset-0 z-10 bg-[#2f241d]/45" aria-hidden="true"></span>
-      <div class="absolute right-0 top-14 z-30 w-[min(88vw,22rem)] rounded-3xl border border-black/10 bg-white p-4 shadow-2xl">
+      <div id="mobile-navigation" class="absolute right-0 top-14 z-30 w-[min(88vw,22rem)] rounded-3xl border border-black/10 bg-white p-4 shadow-2xl">
         <nav aria-label="Мобильная навигация">
           <ul>{nav.map(([label, href]) => <li><a class="flex min-h-11 items-center rounded-xl px-3 font-bold hover:bg-sand" href={href}>{label}</a></li>)}</ul>
         </nav>
@@ -38,6 +38,10 @@ const nav = [
 <script>
   const mobileMenu = document.querySelector<HTMLDetailsElement>('[data-mobile-menu]');
   const menuSummary = mobileMenu?.querySelector<HTMLElement>('summary');
+
+  mobileMenu?.addEventListener('toggle', () => {
+    menuSummary?.setAttribute('aria-label', mobileMenu.open ? 'Закрыть меню' : 'Открыть меню');
+  });
 
   mobileMenu?.addEventListener('click', (event) => {
     if ((event.target as HTMLElement).closest('a')) mobileMenu.open = false;

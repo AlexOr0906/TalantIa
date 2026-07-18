@@ -2,6 +2,19 @@
 import '../styles/global.css';
 interface Props { title: string; description: string; }
 const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://dety74.ru');
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'ТАЛАНТиЯ',
+  url: 'https://dety74.ru/',
+  telephone: '+79193335835',
+  sameAs: ['https://vk.ru/74talantia'],
+  address: [
+    { '@type': 'PostalAddress', addressLocality: 'Челябинск', streetAddress: 'ул. Молодогвардейцев, 39В', addressCountry: 'RU' },
+    { '@type': 'PostalAddress', addressLocality: 'Челябинск', streetAddress: 'ул. Университетская Набережная, 48', addressCountry: 'RU' },
+  ],
+};
 ---
 <!doctype html>
 <html lang="ru">
@@ -10,9 +23,18 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#fffaf4" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/images/talantiya-logo.png" type="image/png" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organization)} />
     <title>{title}</title>
   </head>
   <body>
+    <a class="skip-link" href="#top">Перейти к содержанию</a>
     <slot />
   </body>
 </html>
