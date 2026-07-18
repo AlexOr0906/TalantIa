@@ -1,101 +1,283 @@
 export type ProgramStatus = 'active' | 'planned' | 'archived';
+export type BranchId = 'branch-1' | 'branch-2';
+export type ProgramAudience = 'children' | 'adults';
+export type ProgramFormat = 'group' | 'individual' | 'express';
+
+export type ProgramCategory =
+  | 'Развитие и учёба'
+  | 'Языки'
+  | 'Логика и наука'
+  | 'Творчество'
+  | 'Движение'
+  | 'Индивидуальные занятия'
+  | 'Для взрослых';
 
 export interface AgeGroup {
-  label: string;
-  minAge?: number;
-  maxAge?: number;
+  minAge: number;
+  maxAge: number | null;
+}
+
+export interface Branch {
+  id: BranchId;
+  shortName: string;
+  address: string;
 }
 
 export interface Program {
   slug: string;
   title: string;
-  shortDescription: string;
-  category: string;
+  shortDescription?: string;
+  /** Draft copy must be confirmed by the owner before publication. */
+  shortDescriptionStatus?: 'draft' | 'confirmed';
+  category: ProgramCategory;
   ageGroups: AgeGroup[];
-  branches: string[];
+  branches: BranchId[];
+  primaryBranch?: BranchId;
   duration: string | null;
   groupSize: string | null;
   schedule: string | null;
   price: string | null;
   trialLesson: boolean | null;
-  teacher: string | null;
   results: string[];
   status: ProgramStatus;
+  formats: ProgramFormat[];
+  audience: ProgramAudience;
+  launchNote?: string;
   accent: 'red' | 'orange' | 'gold' | 'coral';
+  featured?: boolean;
 }
+
+const emptyDetails = {
+  ageGroups: [],
+  branches: [],
+  duration: null,
+  groupSize: null,
+  schedule: null,
+  price: null,
+  trialLesson: null,
+  results: [],
+  status: 'active' as const,
+  formats: [],
+  audience: 'children' as const,
+};
+
+export const branches: Record<BranchId, Branch> = {
+  'branch-1': { id: 'branch-1', shortName: 'Молодогвардейцев', address: 'ул. Молодогвардейцев, 39В' },
+  'branch-2': { id: 'branch-2', shortName: 'Университетская Набережная', address: 'ул. Университетская Набережная, 48' },
+};
+
+const fromAge = (minAge: number): AgeGroup[] => [{ minAge, maxAge: null }];
+
+export const programCategories: ProgramCategory[] = [
+  'Развитие и учёба',
+  'Языки',
+  'Логика и наука',
+  'Творчество',
+  'Движение',
+  'Индивидуальные занятия',
+  'Для взрослых',
+];
 
 export const programs: Program[] = [
   {
+    ...emptyDetails,
+    slug: 'razvitie-detey',
+    title: 'Развитие детей',
+    shortDescription: 'Развиваем познавательные навыки и поддерживаем интерес к обучению.',
+    shortDescriptionStatus: 'draft',
+    category: 'Развитие и учёба',
+    ageGroups: fromAge(3),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'red',
+  },
+  {
+    ...emptyDetails,
     slug: 'podgotovka-k-shkole',
     title: 'Подготовка к школе',
-    shortDescription: 'Занятия для уверенного старта: внимание, мышление, речь и базовые учебные навыки.',
+    shortDescription: 'Занятия для уверенного старта и знакомства с учебными задачами.',
+    shortDescriptionStatus: 'draft',
     category: 'Развитие и учёба',
-    ageGroups: [{ label: '5–6 лет', minAge: 5, maxAge: 6 }],
-    branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: null, teacher: null, results: [], status: 'active', accent: 'red',
+    ageGroups: fromAge(3),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'red',
+    featured: true,
   },
   {
+    ...emptyDetails,
     slug: 'angliyskiy-yazyk',
     title: 'Английский язык',
-    shortDescription: 'Игровые и учебные форматы для разных возрастов — от первых слов до разговорной практики.',
+    shortDescription: 'Знакомимся с языком через учебные и игровые форматы.',
+    shortDescriptionStatus: 'draft',
     category: 'Языки',
-    ageGroups: [
-      { label: 'с 4 лет', minAge: 4 },
-      { label: '5–6 лет', minAge: 5, maxAge: 6 },
-      { label: '12–17 лет', minAge: 12, maxAge: 17 },
-    ],
-    branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: true, teacher: null, results: [], status: 'active', accent: 'orange',
+    ageGroups: fromAge(6),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'orange',
+    featured: true,
   },
   {
+    ...emptyDetails,
+    slug: 'tancevalnaya-gimnastika',
+    title: 'Танцевальная гимнастика',
+    shortDescription: 'Работаем с движением, координацией и чувством ритма.',
+    shortDescriptionStatus: 'draft',
+    category: 'Движение',
+    ageGroups: fromAge(3),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'coral',
+  },
+  {
+    ...emptyDetails,
     slug: 'shahmaty',
     title: 'Шахматы',
-    shortDescription: 'Развиваем логику, внимание и умение принимать решения через игру.',
-    category: 'Логика',
-    ageGroups: [{ label: 'с 4 лет', minAge: 4 }],
-    branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: true, teacher: null, results: [], status: 'active', accent: 'gold',
+    shortDescription: 'Знакомимся с игрой и учимся обдумывать свои решения.',
+    shortDescriptionStatus: 'draft',
+    category: 'Логика и наука',
+    ageGroups: fromAge(5),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'gold',
+    featured: true,
   },
   {
-    slug: 'tvorchestvo',
-    title: 'Творчество',
-    shortDescription: 'Рисуем, мастерим и пробуем разные материалы в спокойной творческой среде.',
-    category: 'Творчество',
-    ageGroups: [{ label: '4–6 лет', minAge: 4, maxAge: 6 }],
-    branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: null, teacher: null, results: [], status: 'active', accent: 'coral',
-  },
-  {
-    slug: 'neyrochtenie',
-    title: 'Нейрочтение',
-    shortDescription: 'Упражнения на чтение, внимание, память и работу с текстом.',
-    category: 'Развитие и учёба',
-    ageGroups: [], branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: null, teacher: null, results: [], status: 'active', accent: 'orange',
-  },
-  {
+    ...emptyDetails,
     slug: 'nauchnaya-laboratoriya',
     title: 'Научная лаборатория',
-    shortDescription: 'Наблюдаем, задаём вопросы и проводим безопасные опыты вместе с наставником.',
-    category: 'Наука',
-    ageGroups: [{ label: 'с 5 лет', minAge: 5 }],
-    branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: true, teacher: null, results: [], status: 'active', accent: 'red',
+    shortDescription: 'Наблюдаем, задаём вопросы и знакомимся с исследовательским подходом.',
+    shortDescriptionStatus: 'draft',
+    category: 'Логика и наука',
+    ageGroups: fromAge(6),
+    branches: ['branch-1'],
+    accent: 'red',
+    featured: true,
   },
   {
+    ...emptyDetails,
+    slug: 'kalligrafiya-i-pocherk',
+    title: 'Каллиграфия и коррекция почерка',
+    shortDescription: 'Работаем над аккуратным письмом, постановкой руки и почерком.',
+    shortDescriptionStatus: 'draft',
+    category: 'Развитие и учёба',
+    ageGroups: fromAge(6),
+    branches: ['branch-1', 'branch-2'],
+    formats: ['group', 'individual'],
+    accent: 'orange',
+  },
+  {
+    ...emptyDetails,
     slug: 'bloging',
     title: 'Блогинг',
-    shortDescription: 'Учимся придумывать идеи, работать в кадре и создавать собственные медиапроекты.',
-    category: 'Медиа',
-    ageGroups: [], branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: null, teacher: null, results: [], status: 'active', accent: 'coral',
+    shortDescription: 'Пробуем придумывать идеи, работать в кадре и создавать медиаматериалы.',
+    shortDescriptionStatus: 'draft',
+    category: 'Творчество',
+    ageGroups: fromAge(6),
+    branches: ['branch-1'],
+    accent: 'coral',
+    featured: true,
   },
   {
+    ...emptyDetails,
+    slug: 'neyrochtenie',
+    title: 'Нейрочтение',
+    shortDescription: 'Выполняем упражнения на чтение, внимание, память и работу с текстом.',
+    shortDescriptionStatus: 'draft',
+    category: 'Развитие и учёба',
+    ageGroups: fromAge(5),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'orange',
+    featured: true,
+  },
+  {
+    ...emptyDetails,
     slug: 'biseropletenie',
     title: 'Бисероплетение',
-    shortDescription: 'Создаём аккуратные работы своими руками и развиваем терпение и чувство цвета.',
+    shortDescription: 'Знакомимся с техниками плетения и создаём работы своими руками.',
+    shortDescriptionStatus: 'draft',
     category: 'Творчество',
-    ageGroups: [], branches: [], duration: null, groupSize: null, schedule: null, price: null,
-    trialLesson: null, teacher: null, results: [], status: 'active', accent: 'gold',
+    ageGroups: fromAge(6),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'gold',
+    featured: true,
+  },
+  {
+    ...emptyDetails,
+    slug: 'art-studiya',
+    title: 'Арт-студия',
+    shortDescription: 'Регулярные занятия рисованием и знакомство с разными художественными техниками',
+    shortDescriptionStatus: 'confirmed',
+    category: 'Творчество',
+    ageGroups: fromAge(6),
+    branches: ['branch-1', 'branch-2'],
+    primaryBranch: 'branch-2',
+    accent: 'coral',
+    featured: true,
+  },
+  {
+    ...emptyDetails,
+    slug: 'risovanie-peskom',
+    title: 'Рисование песком',
+    shortDescription: 'Осваиваем рисование песком и создаём визуальные истории.',
+    shortDescriptionStatus: 'draft',
+    category: 'Творчество',
+    ageGroups: fromAge(6),
+    branches: ['branch-1'],
+    accent: 'red',
+  },
+  {
+    ...emptyDetails,
+    slug: 'tvorcheskaya-masterskaya',
+    title: 'Творческая мастерская',
+    shortDescription: 'Творческие занятия и мастер-классы с разными материалами и техниками',
+    shortDescriptionStatus: 'confirmed',
+    category: 'Творчество',
+    ageGroups: fromAge(6),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'gold',
+  },
+  {
+    ...emptyDetails,
+    slug: 'proektnaya-deyatelnost',
+    title: 'Проектная деятельность',
+    shortDescription: 'Индивидуальная работа над учебными и исследовательскими проектами: от идеи до представления результата',
+    shortDescriptionStatus: 'confirmed',
+    category: 'Индивидуальные занятия',
+    ageGroups: fromAge(7),
+    branches: ['branch-1'],
+    formats: ['individual'],
+    accent: 'red',
+  },
+  {
+    ...emptyDetails,
+    slug: 'fitnes-dlya-mam',
+    title: 'Фитнес для мам',
+    shortDescription: 'Занятия движением и физической активностью для взрослых.',
+    shortDescriptionStatus: 'draft',
+    category: 'Для взрослых',
+    branches: ['branch-1'],
+    audience: 'adults',
+    accent: 'coral',
+    status: 'planned',
+    launchNote: 'С сентября',
+  },
+  {
+    ...emptyDetails,
+    slug: 'gimnastika-dlya-uma',
+    title: 'Гимнастика для ума — экспресс-курс',
+    shortDescription: 'Экспресс-курс с упражнениями на внимание, память и мышление.',
+    shortDescriptionStatus: 'draft',
+    category: 'Развитие и учёба',
+    ageGroups: fromAge(6),
+    branches: ['branch-1'],
+    formats: ['express'],
+    accent: 'orange',
+  },
+  {
+    ...emptyDetails,
+    slug: 'logoped',
+    title: 'Логопед',
+    shortDescription: 'Индивидуальная работа со специалистом по развитию речи.',
+    shortDescriptionStatus: 'draft',
+    category: 'Индивидуальные занятия',
+    ageGroups: fromAge(5),
+    branches: ['branch-1', 'branch-2'],
+    accent: 'gold',
   },
 ];

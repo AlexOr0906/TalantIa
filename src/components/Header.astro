@@ -1,12 +1,12 @@
 ---
 const nav = [
-  ['Направления', '#programs'], ['Расписание и цены', '#consultation'], ['Праздники', '#consultation'],
-  ['Специалисты', '#consultation'], ['О центре', '#about'], ['Контакты', '#branches'],
+  ['Направления', '/programs/'], ['Расписание и цены', '/#consultation'], ['Праздники', '/#consultation'],
+  ['О центре', '/#about'], ['Контакты', '/#branches'],
 ];
 ---
 <header class="sticky top-0 z-50 border-b-2 border-[#ccb993] bg-cream/96 backdrop-blur">
   <div class="container-site flex min-h-24 items-center justify-between gap-4">
-    <a href="#top" class="flex min-h-11 items-center gap-3" aria-label="ТАЛАНТиЯ — на главную">
+    <a href="/" class="flex min-h-11 items-center gap-3" aria-label="ТАЛАНТиЯ — на главную">
       <img src="/images/talantiya-logo.png" alt="ТАЛАНТиЯ — страна талантливых друзей" class="h-[76px] w-auto object-contain" width="253" height="159" />
       <span class="hidden border-l-2 border-[#d9c39b] pl-3 text-[11px] font-bold leading-4 text-muted lg:block">Детский центр<br />в Челябинске</span>
     </a>
@@ -17,7 +17,7 @@ const nav = [
     </nav>
     <div class="hidden items-center gap-3 md:flex">
       <a class="flex min-h-11 items-center font-bold whitespace-nowrap hover:text-brand" href="tel:+79193335835">+7 (919) 333-58-35</a>
-      <a class="button-primary" href="#consultation">Записаться</a>
+      <a class="button-primary" href="/#consultation">Записаться</a>
     </div>
     <details class="relative md:hidden" data-mobile-menu>
       <summary class="relative z-30 grid size-11 cursor-pointer list-none place-items-center rounded-full border-2 border-[#7b6248] bg-white" aria-label="Открыть меню">
@@ -29,7 +29,7 @@ const nav = [
           <ul>{nav.map(([label, href]) => <li><a class="flex min-h-11 items-center rounded-xl px-3 font-bold hover:bg-sand" href={href}>{label}</a></li>)}</ul>
         </nav>
         <a class="mt-3 flex min-h-11 items-center px-3 font-bold text-brand" href="tel:+79193335835">+7 (919) 333-58-35</a>
-        <a class="button-primary mt-2 w-full" href="#consultation">Записаться</a>
+        <a class="button-primary mt-2 w-full" href="/#consultation">Записаться</a>
       </div>
     </details>
   </div>

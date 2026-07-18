@@ -1,0 +1,196 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CatalogProgramCard from '../../components/CatalogProgramCard.astro';
+import { branches, programCategories, programs, type BranchId } from '../../data/programs';
+
+const catalogPrograms = programs.filter((program) => program.status === 'active' || program.status === 'planned');
+const filters = ['Все', ...programCategories];
+const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
+  { label: 'Все филиалы', value: 'all' },
+  { label: branches['branch-1'].shortName, value: 'branch-1' },
+  { label: branches['branch-2'].shortName, value: 'branch-2' },
+];
+---
+<Layout title="Направления занятий — ТАЛАНТиЯ" description="Каталог развивающих, образовательных, творческих и спортивных направлений детского центра ТАЛАНТиЯ в Челябинске.">
+  <Header />
+  <main id="top">
+    <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
+      <div class="absolute left-0 top-24 h-5 w-28 -rotate-3 bg-leaf/35"></div>
+      <div class="absolute -right-12 top-24 size-40 rounded-full border-[18px] border-sky/20"></div>
+      <div class="container-site">
+        <nav aria-label="Хлебные крошки">
+          <ol class="flex min-h-11 flex-wrap items-center gap-2 text-sm font-bold text-muted">
+            <li><a class="rounded-lg hover:text-brand" href="/">Главная</a></li>
+            <li aria-hidden="true">→</li>
+            <li aria-current="page" class="text-ink">Направления</li>
+          </ol>
+        </nav>
+        <div class="mt-8 grid items-center gap-12 lg:grid-cols-[1fr_.9fr]">
+          <div>
+            <p class="eyebrow">Актуальные направления</p>
+            <h1 class="headline mt-5 max-w-3xl">Направления занятий</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">Выберите программу по интересам ребёнка или позвоните нам — поможем сориентироваться.</p>
+            <a class="button-primary mt-8" href="#catalog">Смотреть каталог <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="relative mx-auto grid w-full max-w-xl grid-cols-[1.1fr_.9fr] items-end gap-3">
+            <figure class="paper-card relative z-10 aspect-[3/4] overflow-hidden rounded-[2rem] bg-sand rotate-[-2deg]">
+              <img src="/images/catalog-art-studio.webp" alt="Дети показывают рисунки, созданные на занятии" class="h-full w-full object-cover" width="720" height="960" decoding="async" />
+            </figure>
+            <figure class="paper-card mb-5 aspect-[3/2] overflow-hidden rounded-[1.5rem] bg-sand rotate-[3deg]">
+              <img src="/images/catalog-dance.webp" alt="Участники танцевального коллектива выступают на сцене" class="h-full w-full object-cover" width="960" height="640" loading="lazy" decoding="async" />
+            </figure>
+            <span class="paper-card absolute -bottom-5 right-5 z-20 rounded-2xl bg-[#fff3b5] px-4 py-3 text-sm font-black rotate-[-2deg]">Учимся · пробуем · создаём</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog" class="section-space scroll-mt-28 bg-[#fffdf6]" data-program-catalog>
+      <div class="container-site">
+        <div class="max-w-3xl">
+          <p class="eyebrow">Каталог</p>
+          <h2 class="headline mt-4">Найдите своё направление</h2>
+          <p class="mt-5 text-lg leading-8 text-muted">Выберите категорию и удобный филиал, чтобы оставить на экране подходящие направления.</p>
+        </div>
+
+        <div class="mt-8" role="group" aria-label="Фильтр направлений по категории" data-filter-group>
+          <p class="mb-3 text-sm font-black uppercase tracking-[.12em] text-muted">Категория</p>
+          <div class="flex flex-wrap gap-2">
+            {filters.map((filter, index) => (
+              <button
+                class="min-h-11 rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
+                type="button"
+                data-category-filter={filter}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+                aria-controls="program-grid"
+              >{filter}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-6" role="group" aria-label="Фильтр направлений по филиалу" data-branch-filter-group>
+          <p class="mb-3 text-sm font-black uppercase tracking-[.12em] text-muted">Филиал</p>
+          <div class="flex flex-wrap gap-2">
+            {branchFilters.map((filter, index) => (
+              <button
+                class="min-h-11 rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
+                type="button"
+                data-branch-filter={filter.value}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+                aria-controls="program-grid"
+              >{filter.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-5 flex min-h-11 items-center gap-4">
+          <button class="button-secondary" type="button" data-reset-filters hidden>Сбросить фильтры</button>
+          <p class="sr-only" aria-live="polite" data-filter-status>Показано направлений: {catalogPrograms.length}</p>
+        </div>
+
+        <div id="program-grid" class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3" data-program-grid>
+          {catalogPrograms.map((program, index) => <CatalogProgramCard program={program} index={index} />)}
+        </div>
+        <div class="paper-card mt-10 rounded-[1.75rem] bg-cream p-7 text-center md:p-10" data-empty-state hidden>
+          <p class="text-xl font-black">По выбранным параметрам направлений не найдено</p>
+          <button class="button-primary mt-6" type="button" data-empty-reset>Сбросить фильтры</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="consultation" class="section-space border-t-2 border-[#d3bd92]">
+      <div class="container-site">
+        <div class="paper-card relative overflow-hidden rounded-[2rem] bg-brand p-7 text-white md:p-12 lg:p-16">
+          <div class="absolute -right-12 -top-12 size-48 rounded-full border-[20px] border-warm/45"></div>
+          <div class="relative max-w-4xl">
+            <p class="text-xs font-black uppercase tracking-[.14em] text-[#ffe28a]">Можно начать с разговора</p>
+            <h2 class="mt-4 text-3xl font-black leading-tight tracking-[-.035em] md:text-5xl">Не знаете, что выбрать? Позвоните — поможем подобрать занятие</h2>
+            <a class="paper-card mt-8 inline-flex min-h-11 items-center justify-center rounded-full bg-[#fff3b5] px-6 py-3 text-center font-black text-ink transition hover:bg-white" href="tel:+79193335835">Позвонить +7 (919) 333-58-35</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const catalog = document.querySelector<HTMLElement>('[data-program-catalog]');
+  const categoryButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-category-filter]') ?? []);
+  const branchButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-branch-filter]') ?? []);
+  const cards = Array.from(catalog?.querySelectorAll<HTMLElement>('[data-program-card]') ?? []);
+  const status = catalog?.querySelector<HTMLElement>('[data-filter-status]');
+  const resetButton = catalog?.querySelector<HTMLButtonElement>('[data-reset-filters]');
+  const emptyState = catalog?.querySelector<HTMLElement>('[data-empty-state]');
+  const emptyReset = catalog?.querySelector<HTMLButtonElement>('[data-empty-reset]');
+  let selectedCategory = 'Все';
+  let selectedBranch = 'all';
+
+  const applyFilters = () => {
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const categoryMatches = selectedCategory === 'Все' || card.dataset.category === selectedCategory;
+      const cardBranches = (card.dataset.branches ?? '').split(',');
+      const branchMatches = selectedBranch === 'all' || cardBranches.includes(selectedBranch);
+      const visible = categoryMatches && branchMatches;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    });
+
+    if (status) status.textContent = `Показано направлений: ${visibleCount}`;
+    if (resetButton) resetButton.hidden = selectedCategory === 'Все' && selectedBranch === 'all';
+    if (emptyState) emptyState.hidden = visibleCount !== 0;
+  };
+
+  const activateCategory = (button: HTMLButtonElement) => {
+    selectedCategory = button.dataset.categoryFilter ?? 'Все';
+    categoryButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    applyFilters();
+  };
+
+  const activateBranch = (button: HTMLButtonElement) => {
+    selectedBranch = button.dataset.branchFilter ?? 'all';
+    branchButtons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    applyFilters();
+  };
+
+  const bindGroup = (buttons: HTMLButtonElement[], activate: (button: HTMLButtonElement) => void) => {
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => activate(button));
+      button.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activate(button);
+        return;
+      }
+
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const lastIndex = buttons.length - 1;
+      const targetIndex = event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? lastIndex
+          : event.key === 'ArrowRight'
+            ? (index + 1) % buttons.length
+            : (index - 1 + buttons.length) % buttons.length;
+      buttons[targetIndex]?.focus();
+      });
+    });
+  };
+
+  const resetFilters = () => {
+    selectedCategory = 'Все';
+    selectedBranch = 'all';
+    categoryButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.categoryFilter === 'Все')));
+    branchButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.branchFilter === 'all')));
+    applyFilters();
+  };
+
+  bindGroup(categoryButtons, activateCategory);
+  bindGroup(branchButtons, activateBranch);
+  resetButton?.addEventListener('click', resetFilters);
+  emptyReset?.addEventListener('click', resetFilters);
+</script>
