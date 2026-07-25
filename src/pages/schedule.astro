@@ -5,9 +5,15 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import DecorativeVisual from '../components/DecorativeVisual.astro';
 import PhoneCTA from '../components/PhoneCTA.astro';
-import { branches, getProgramAgeLabel, programs } from '../data/programs';
+import { branches, getProgramAgeLabel, programCategories, programs, type BranchId } from '../data/programs';
 
 const visiblePrograms = programs.filter((program) => program.status === 'active' || program.status === 'planned');
+const categoryFilters = ['Все', ...programCategories];
+const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
+  { label: 'Все филиалы', value: 'all' },
+  { label: branches['branch-1'].shortName, value: 'branch-1' },
+  { label: branches['branch-2'].shortName, value: 'branch-2' },
+];
 const getAge = (program: typeof programs[number]) => getProgramAgeLabel(program, true);
 const getBranches = (program: typeof programs[number]) => program.branches.length === 2 ? 'Оба филиала' : program.branches[0] ? branches[program.branches[0]].shortName : null;
 const getFormat = (program: typeof programs[number]) => program.formats.includes('group') && program.formats.includes('individual')
@@ -40,16 +46,56 @@ const getFormat = (program: typeof programs[number]) => program.formats.includes
       </div>
     </section>
 
-    <section class="section-space bg-[#fffdf6]" aria-labelledby="schedule-programs-title">
+    <section class="section-space bg-[#fffdf6]" aria-labelledby="schedule-programs-title" data-schedule-catalog>
       <div class="container-site">
         <p class="eyebrow">Актуальные направления</p>
         <h2 id="schedule-programs-title" class="headline mt-4">Что можно выбрать</h2>
-        <p class="mt-5 max-w-3xl text-lg leading-8 text-muted">На карточках показаны только подтверждённые возраст, филиал и формат. Актуальное время и стоимость можно узнать по телефону.</p>
-        <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+        <div class="mt-8" role="group" aria-label="Фильтр направлений по категории">
+          <p class="mb-3 text-sm font-black uppercase tracking-[.12em] text-muted">Категория</p>
+          <div class="flex flex-wrap gap-2">
+            {categoryFilters.map((filter, index) => (
+              <button
+                class="min-h-11 rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
+                type="button"
+                data-schedule-category={filter}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+                aria-controls="schedule-program-grid"
+              >{filter}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-6" role="group" aria-label="Фильтр направлений по филиалу">
+          <p class="mb-3 text-sm font-black uppercase tracking-[.12em] text-muted">Филиал</p>
+          <div class="flex flex-wrap gap-2">
+            {branchFilters.map((filter, index) => (
+              <button
+                class="min-h-11 rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
+                type="button"
+                data-schedule-branch={filter.value}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+                aria-controls="schedule-program-grid"
+              >{filter.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div class="mt-5 flex min-h-11 items-center gap-4">
+          <button class="button-secondary" type="button" data-schedule-reset hidden>Сбросить фильтры</button>
+          <p class="sr-only" aria-live="polite" data-schedule-status>Показано направлений: {visiblePrograms.length}</p>
+        </div>
+
+        <div id="schedule-program-grid" class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {visiblePrograms.map((program) => {
             const labels = [getAge(program), getBranches(program), getFormat(program), program.status === 'planned' ? program.launchNote : null].filter(Boolean);
             return (
-              <article class="paper-card flex flex-col rounded-[1.75rem] bg-cream p-6">
+              <article
+                class="paper-card flex flex-col rounded-[1.75rem] bg-cream p-6"
+                data-schedule-card
+                data-category={program.category}
+                data-branches={program.branches.join(',')}
+              >
                 <p class="text-xs font-black uppercase tracking-[.1em] text-brand">{program.category}</p>
                 <h3 class="mt-3 text-2xl font-black leading-tight">{program.title}</h3>
                 {labels.length > 0 && <div class="mt-4 flex flex-wrap gap-2">{labels.map((label) => <span class="rounded-full border border-[#d7c39c] bg-white px-3 py-1.5 text-xs font-extrabold">{label}</span>)}</div>}
@@ -58,6 +104,10 @@ const getFormat = (program: typeof programs[number]) => program.formats.includes
             );
           })}
         </div>
+        <div class="paper-card mt-10 rounded-[1.75rem] bg-cream p-7 text-center md:p-10" data-schedule-empty hidden>
+          <p class="text-xl font-black">По выбранным параметрам направлений не найдено</p>
+          <button class="button-primary mt-6" type="button" data-schedule-empty-reset>Сбросить фильтры</button>
+        </div>
       </div>
     </section>
 
@@ -65,3 +115,76 @@ const getFormat = (program: typeof programs[number]) => program.formats.includes
   </main>
   <Footer />
 </Layout>
+
+<script>
+  const catalog = document.querySelector<HTMLElement>('[data-schedule-catalog]');
+  const categoryButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-schedule-category]') ?? []);
+  const branchButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-schedule-branch]') ?? []);
+  const cards = Array.from(catalog?.querySelectorAll<HTMLElement>('[data-schedule-card]') ?? []);
+  const resetButton = catalog?.querySelector<HTMLButtonElement>('[data-schedule-reset]');
+  const status = catalog?.querySelector<HTMLElement>('[data-schedule-status]');
+  const emptyState = catalog?.querySelector<HTMLElement>('[data-schedule-empty]');
+  const emptyReset = catalog?.querySelector<HTMLButtonElement>('[data-schedule-empty-reset]');
+  let selectedCategory = 'Все';
+  let selectedBranch = 'all';
+
+  const applyFilters = () => {
+    let visibleCount = 0;
+    cards.forEach((card) => {
+      const categoryMatches = selectedCategory === 'Все' || card.dataset.category === selectedCategory;
+      const branchMatches = selectedBranch === 'all' || (card.dataset.branches ?? '').split(',').includes(selectedBranch);
+      const visible = categoryMatches && branchMatches;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    });
+    if (status) status.textContent = `Показано направлений: ${visibleCount}`;
+    if (resetButton) resetButton.hidden = selectedCategory === 'Все' && selectedBranch === 'all';
+    if (emptyState) emptyState.hidden = visibleCount !== 0;
+  };
+
+  const activate = (
+    button: HTMLButtonElement,
+    buttons: HTMLButtonElement[],
+    type: 'category' | 'branch',
+  ) => {
+    if (type === 'category') selectedCategory = button.dataset.scheduleCategory ?? 'Все';
+    else selectedBranch = button.dataset.scheduleBranch ?? 'all';
+    buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+    applyFilters();
+  };
+
+  const bindGroup = (
+    buttons: HTMLButtonElement[],
+    type: 'category' | 'branch',
+  ) => {
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', () => activate(button, buttons, type));
+      button.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const lastIndex = buttons.length - 1;
+        const targetIndex = event.key === 'Home'
+          ? 0
+          : event.key === 'End'
+            ? lastIndex
+            : event.key === 'ArrowRight'
+              ? (index + 1) % buttons.length
+              : (index - 1 + buttons.length) % buttons.length;
+        buttons[targetIndex]?.focus();
+      });
+    });
+  };
+
+  const resetFilters = () => {
+    selectedCategory = 'Все';
+    selectedBranch = 'all';
+    categoryButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.scheduleCategory === 'Все')));
+    branchButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.scheduleBranch === 'all')));
+    applyFilters();
+  };
+
+  bindGroup(categoryButtons, 'category');
+  bindGroup(branchButtons, 'branch');
+  resetButton?.addEventListener('click', resetFilters);
+  emptyReset?.addEventListener('click', resetFilters);
+</script>

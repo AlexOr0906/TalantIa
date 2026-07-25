@@ -1,5 +1,6 @@
 ---
 import { branches, getProgramAgeLabel, type Program } from '../../data/programs';
+import { programCategoryTone } from '../../data/program-visuals';
 
 interface Props { program: Program; }
 const { program } = Astro.props;
@@ -23,12 +24,7 @@ const formatLabel = program.formats.includes('group') && program.formats.include
         ? 'Регулярные занятия'
         : null;
 const heroLabels = [age, branchLabel, formatLabel, program.launchNote].filter(Boolean).slice(0, 4);
-const decorativeAccent = {
-  red: 'bg-[#f6ced1]',
-  orange: 'bg-[#ffe0ad]',
-  gold: 'bg-[#f7e796]',
-  coral: 'bg-[#cce8d0]',
-}[program.accent];
+const decorativeAccent = programCategoryTone[program.category].surface;
 ---
 <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
   <div class="absolute left-0 top-28 h-5 w-28 -rotate-3 bg-leaf/35" aria-hidden="true"></div>
