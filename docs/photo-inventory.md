@@ -71,6 +71,33 @@
 | `public/images/vk/cards/sand-drawing-card.webp` | Рисование песком | квадрат | источник / референс | нет, рисунок | аналогично |
 | `public/images/vk/cards/fitness-for-moms-card.webp` | Фитнес для мам | квадрат | источник / референс | нет, рисунок | аналогично |
 
+### Crop-иллюстрации для каталога
+
+Из каждого макета детерминированно вырезана центральная иллюстрация: квадрат 320×320, круглая маска с прозрачными углами, WebP. Название, возраст и красный рекламный фон за пределами круга в crop не входят. Персонажи не генерировались и не перерисовывались.
+
+| Исходный файл | Созданный crop | Программа | Публичное использование |
+|---|---|---|---|
+| `razvivayka-card.webp` | `card-illustrations/razvivayka-illustration.webp` | Развивайка & Акварелька | карточка каталога |
+| `school-preparation-card.webp` | `card-illustrations/school-preparation-illustration.webp` | Подготовка к школе | карточка каталога |
+| `english-card.webp` | `card-illustrations/english-illustration.webp` | Английский язык | карточка каталога |
+| `learn-to-read-card.webp` | `card-illustrations/learn-to-read-illustration.webp` | Учусь читать | карточка каталога |
+| `dance-gymnastics-card.webp` | `card-illustrations/dance-gymnastics-illustration.webp` | Танцевальная гимнастика | карточка каталога |
+| `chess-card.webp` | `card-illustrations/chess-illustration.webp` | Шахматы | карточка каталога |
+| `science-lab-card.webp` | `card-illustrations/science-lab-illustration.webp` | Научная лаборатория | карточка каталога |
+| `robotics-card.webp` | `card-illustrations/robotics-illustration.webp` | Робототехника | карточка каталога |
+| `calligraphy-card.webp` | `card-illustrations/calligraphy-illustration.webp` | Каллиграфия и коррекция почерка | карточка каталога |
+| `videoblogging-card.webp` | `card-illustrations/videoblogging-illustration.webp` | Блогинг | карточка каталога |
+| `neuroreading-card.webp` | `card-illustrations/neuroreading-illustration.webp` | Нейрочтение | карточка каталога |
+| `beading-card.webp` | `card-illustrations/beading-illustration.webp` | Бисероплетение | карточка каталога |
+| `art-studio-card.webp` | `card-illustrations/art-studio-illustration.webp` | Арт-студия | карточка каталога |
+| `sand-drawing-card.webp` | `card-illustrations/sand-drawing-illustration.webp` | Рисование песком | карточка каталога |
+| `kids-art-gallery-card.webp` | `card-illustrations/kids-art-gallery-illustration.webp` | Детская художественная галерея | карточка каталога |
+| `project-work-card.webp` | `card-illustrations/project-work-illustration.webp` | Проектная деятельность | карточка каталога |
+| `fitness-for-moms-card.webp` | `card-illustrations/fitness-for-moms-illustration.webp` | Фитнес для мам | карточка каталога |
+| `logoped-card.webp` | `card-illustrations/logoped-illustration.webp` | Логопед | карточка каталога |
+
+«Творческая мастерская» и «Гимнастика для ума — экспресс-курс» не имеют соответствующих карточек в актуальной витрине VK. Для них в каталоге сохраняются существующие декоративные заглушки.
+
 ### Реальные фотографии
 
 | Рабочая копия | Что изображено | Ориентация и размер | Подходящий блок | Лица детей | Согласие перед публикацией |
