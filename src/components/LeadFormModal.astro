@@ -1,0 +1,202 @@
+---
+const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
+---
+<dialog
+  class="m-auto max-h-[calc(100dvh-2rem)] w-[min(100%-2rem,40rem)] overflow-y-auto rounded-[2rem] border-2 border-[#7b6248] bg-cream p-0 text-ink shadow-2xl backdrop:bg-[#2f241d]/65"
+  data-lead-dialog
+  data-endpoint={leadEndpoint}
+  aria-labelledby="lead-dialog-title"
+  aria-describedby="lead-dialog-description"
+>
+  <div class="relative p-6 sm:p-9">
+    <button class="absolute right-4 top-4 grid size-11 place-items-center rounded-full border-2 border-[#bda982] bg-white text-xl font-black hover:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" type="button" data-close-lead aria-label="Закрыть форму">×</button>
+    <p class="eyebrow">Запись и консультация</p>
+    <h2 id="lead-dialog-title" class="mt-4 pr-10 text-3xl font-black leading-[1.08] tracking-[-.01em] sm:text-4xl">Оставьте номер — мы свяжемся с вами</h2>
+    <p id="lead-dialog-description" class="mt-4 leading-7 text-muted">Поможем подобрать направление и ответим на вопросы.</p>
+
+    <form class="mt-7" data-lead-form novalidate>
+      <div>
+        <label class="block font-extrabold" for="lead-name">Имя <span class="font-normal text-muted">(необязательно)</span></label>
+        <input class="mt-2 min-h-12 w-full rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 text-lg focus-visible:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" id="lead-name" name="name" type="text" autocomplete="name" maxlength="100" />
+      </div>
+
+      <div class="mt-5">
+        <label class="block font-extrabold" for="lead-phone">Телефон <span class="text-brand" aria-hidden="true">*</span></label>
+        <input class="mt-2 min-h-12 w-full rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 text-lg focus-visible:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 999 123-45-67" required aria-describedby="lead-phone-error" />
+        <p id="lead-phone-error" class="mt-2 text-sm font-bold text-brand" data-phone-error hidden>Введите российский номер телефона из 11 цифр.</p>
+      </div>
+
+      <div class="mt-5">
+        <label class="block font-extrabold" for="lead-interest">Направление</label>
+        <input class="mt-2 min-h-12 w-full rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 focus-visible:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" id="lead-interest" name="interest" type="text" maxlength="160" placeholder="Например, шахматы" />
+      </div>
+
+      <fieldset class="mt-5">
+        <legend class="font-extrabold">Удобный способ связи</legend>
+        <div class="mt-3 grid gap-3 sm:grid-cols-2">
+          <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 font-bold has-[:checked]:border-brand has-[:checked]:bg-[#fff3ee]">
+            <input class="size-5 accent-brand" name="contactMethod" type="radio" value="phone" checked />
+            Телефон
+          </label>
+          <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 font-bold has-[:checked]:border-brand has-[:checked]:bg-[#fff3ee]">
+            <input class="size-5 accent-brand" name="contactMethod" type="radio" value="telegram" />
+            Telegram
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="sr-only" aria-hidden="true">
+        <label for="lead-company">Компания</label>
+        <input id="lead-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="mt-5 flex min-h-11 cursor-pointer items-start gap-3 leading-6">
+        <input class="mt-1 size-5 shrink-0 accent-brand" name="consent" type="checkbox" required aria-describedby="lead-consent-error" />
+        <span>Согласен на обработку персональных данных <span class="text-brand" aria-hidden="true">*</span></span>
+      </label>
+      <p id="lead-consent-error" class="mt-2 text-sm font-bold text-brand" data-consent-error hidden>Подтвердите согласие на обработку персональных данных.</p>
+
+      <input name="page" type="hidden" />
+      <button class="button-primary mt-7 w-full disabled:cursor-wait disabled:opacity-65" type="submit" data-lead-submit>Оставить заявку</button>
+      <div class="mt-4 min-h-14 rounded-2xl bg-white/70 p-4 leading-6" role="status" aria-live="polite" data-lead-result hidden></div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lead-dialog]');
+  const form = dialog?.querySelector<HTMLFormElement>('[data-lead-form]');
+  const nameInput = form?.elements.namedItem('name') as HTMLInputElement | null;
+  const phoneInput = form?.elements.namedItem('phone') as HTMLInputElement | null;
+  const interestInput = form?.elements.namedItem('interest') as HTMLInputElement | null;
+  const consentInput = form?.elements.namedItem('consent') as HTMLInputElement | null;
+  const pageInput = form?.elements.namedItem('page') as HTMLInputElement | null;
+  const companyInput = form?.elements.namedItem('company') as HTMLInputElement | null;
+  const submitButton = form?.querySelector<HTMLButtonElement>('[data-lead-submit]');
+  const result = form?.querySelector<HTMLElement>('[data-lead-result]');
+  const phoneError = form?.querySelector<HTMLElement>('[data-phone-error]');
+  const consentError = form?.querySelector<HTMLElement>('[data-consent-error]');
+  const endpoint = dialog?.dataset.endpoint?.trim() ?? '';
+  let opener: HTMLElement | null = null;
+  let submitting = false;
+  let previousOverflow = '';
+
+  const normalizePhone = (value: string) => {
+    const digits = value.replace(/\D/g, '');
+    if (digits.length === 10) return `+7${digits}`;
+    if (digits.length === 11 && (digits.startsWith('7') || digits.startsWith('8'))) return `+7${digits.slice(1)}`;
+    return value.trim();
+  };
+
+  const setResult = (state: 'demo' | 'loading' | 'success' | 'error', message: string) => {
+    if (!result) return;
+    result.hidden = false;
+    result.dataset.state = state;
+    result.className = state === 'error'
+      ? 'mt-4 min-h-14 rounded-2xl border-2 border-brand bg-white p-4 leading-6'
+      : 'mt-4 min-h-14 rounded-2xl bg-white/70 p-4 leading-6';
+    result.innerHTML = message;
+  };
+
+  const validate = () => {
+    const normalized = normalizePhone(phoneInput?.value ?? '');
+    const phoneValid = /^\+7\d{10}$/.test(normalized);
+    const consentValid = Boolean(consentInput?.checked);
+    phoneError?.toggleAttribute('hidden', phoneValid);
+    consentError?.toggleAttribute('hidden', consentValid);
+    phoneInput?.setAttribute('aria-invalid', String(!phoneValid));
+    consentInput?.setAttribute('aria-invalid', String(!consentValid));
+    if (phoneValid && phoneInput) phoneInput.value = normalized;
+    if (!phoneValid) phoneInput?.focus();
+    else if (!consentValid) consentInput?.focus();
+    return phoneValid && consentValid;
+  };
+
+  const closeDialog = () => dialog?.close();
+
+  document.addEventListener('click', (event) => {
+    const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-open-lead-form]');
+    if (!trigger || !dialog) return;
+    event.preventDefault();
+    opener = trigger;
+    if (pageInput) pageInput.value = location.pathname;
+    const programTitle = location.pathname.startsWith('/programs/') && location.pathname !== '/programs/'
+      ? document.querySelector('main h1')?.textContent?.trim() ?? ''
+      : '';
+    const preset = trigger.dataset.interest ?? programTitle;
+    if (interestInput) interestInput.value = preset;
+    if (result) result.hidden = true;
+    previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    dialog.showModal();
+    requestAnimationFrame(() => nameInput?.focus());
+  });
+
+  dialog?.querySelector('[data-close-lead]')?.addEventListener('click', closeDialog);
+  dialog?.addEventListener('click', (event) => {
+    if (event.target === dialog) closeDialog();
+  });
+  dialog?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeDialog();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && dialog?.open) {
+      event.preventDefault();
+      closeDialog();
+    }
+  });
+  dialog?.addEventListener('close', () => {
+    document.documentElement.style.overflow = previousOverflow;
+    opener?.focus();
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (submitting || !validate() || !submitButton || !phoneInput || !consentInput) return;
+
+    if (!endpoint) {
+      setResult('demo', 'Онлайн-отправка пока не подключена. Данные никуда не переданы. Вы можете <a class="font-black text-brand underline" href="tel:+79193335835">позвонить +7 (919) 333-58-35</a>.');
+      return;
+    }
+
+    submitting = true;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Отправляем…';
+    setResult('loading', 'Отправляем заявку…');
+
+    const submissionId = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const contactMethod = (new FormData(form).get('contactMethod') as string | null) ?? 'phone';
+    const payload = {
+      name: nameInput?.value.trim() ?? '',
+      phone: normalizePhone(phoneInput.value),
+      interest: interestInput?.value.trim() ?? '',
+      contactMethod,
+      consent: consentInput.checked,
+      page: pageInput?.value || location.pathname,
+      company: companyInput?.value ?? '',
+      submissionId,
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Idempotency-Key': submissionId,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) throw new Error('Lead endpoint rejected the request');
+      setResult('success', 'Заявка отправлена. Мы свяжемся с вами выбранным способом.');
+      form.reset();
+    } catch {
+      setResult('error', 'Не удалось отправить заявку. Пожалуйста, <a class="font-black text-brand underline" href="tel:+79193335835">позвоните +7 (919) 333-58-35</a>.');
+    } finally {
+      submitting = false;
+      submitButton.disabled = false;
+      submitButton.textContent = 'Оставить заявку';
+    }
+  });
+</script>

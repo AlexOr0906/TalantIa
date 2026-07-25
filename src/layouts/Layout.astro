@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import LeadFormModal from '../components/LeadFormModal.astro';
 interface Props { title: string; description: string; }
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://dety74.ru');
@@ -36,5 +37,6 @@ const organization = {
   <body>
     <a class="skip-link" href="#top">Перейти к содержанию</a>
     <slot />
+    <LeadFormModal />
   </body>
 </html>

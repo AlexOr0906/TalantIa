@@ -97,6 +97,10 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
           <p class="text-xl font-black">По выбранным параметрам направлений не найдено</p>
           <button class="button-primary mt-6" type="button" data-empty-reset>Сбросить фильтры</button>
         </div>
+        <div class="mt-10 flex flex-wrap gap-4 border-t-2 border-dashed border-[#c7ac79] pt-8">
+          <button class="button-primary" type="button" data-open-lead-form>Оставить заявку</button>
+          <a class="button-secondary" href="tel:+79193335835">Позвонить</a>
+        </div>
       </div>
     </section>
 
@@ -106,8 +110,8 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
           <div class="absolute -right-12 -top-12 size-48 rounded-full border-[20px] border-warm/45"></div>
           <div class="relative max-w-4xl">
             <p class="text-xs font-black uppercase tracking-[.14em] text-[#ffe28a]">Можно начать с разговора</p>
-            <h2 class="mt-4 text-3xl font-black leading-[1.08] tracking-[-.01em] md:text-5xl">Не знаете, что выбрать? Позвоните — поможем подобрать занятие</h2>
-            <a class="paper-card mt-8 inline-flex min-h-11 items-center justify-center rounded-full bg-[#fff3b5] px-6 py-3 text-center font-black text-ink transition hover:bg-white" href="tel:+79193335835">Позвонить +7 (919) 333-58-35</a>
+            <h2 class="mt-4 text-3xl font-black leading-[1.08] tracking-[-.01em] md:text-5xl">Не знаете, что выбрать? Поможем подобрать занятие</h2>
+            <div class="mt-8 flex flex-wrap gap-4"><button class="paper-card inline-flex min-h-11 items-center justify-center rounded-full bg-[#fff3b5] px-6 py-3 text-center font-black text-ink transition hover:bg-white" type="button" data-open-lead-form>Оставить заявку</button><a class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-white px-6 py-3 font-black text-white hover:bg-white hover:text-brand" href="tel:+79193335835">Позвонить</a></div>
           </div>
         </div>
       </div>

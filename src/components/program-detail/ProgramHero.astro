@@ -50,7 +50,8 @@ const decorativeAccent = programCategoryTone[program.category].surface;
         {program.locationNote && <p class="mt-4 max-w-xl text-sm font-bold text-muted">{program.locationNote}</p>}
         {program.shortDescription && <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">{program.shortDescription}</p>}
         <div class="mt-8 flex flex-wrap gap-4">
-          <a class="button-primary" href="tel:+79193335835">Позвонить и записаться</a>
+          <button class="button-primary" type="button" data-open-lead-form data-interest={program.title}>Оставить заявку</button>
+          <a class="button-secondary" href="tel:+79193335835">Позвонить</a>
           <a class="button-secondary" href="/programs/">Все направления</a>
         </div>
       </div>
