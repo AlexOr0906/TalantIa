@@ -3,6 +3,8 @@ import { branches, getProgramAgeLabel, type Program } from '../../data/programs'
 
 interface Props { program: Program; }
 const { program } = Astro.props;
+const visual = program.heroImage ?? program.cardImage;
+const usesCardIllustration = !program.heroImage && Boolean(program.cardImage);
 const age = getProgramAgeLabel(program, true);
 const branchLabel = program.branches.length === 2
   ? 'Оба филиала'
@@ -56,13 +58,22 @@ const decorativeAccent = {
           <a class="button-secondary" href="/programs/">Все направления</a>
         </div>
       </div>
-      {program.heroImage && (
-        <figure class="paper-card relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-[2rem] bg-sand rotate-[1deg]">
-          <img src={program.heroImage.src} alt={program.heroImage.alt} width={program.heroImage.width} height={program.heroImage.height} class="h-full w-full object-cover" decoding="async" />
-          <figcaption class="absolute bottom-4 left-4 rounded-full bg-[#fff3b5] px-4 py-2 text-sm font-black text-ink">Рисуем · смотрим · пробуем</figcaption>
+      {visual && (
+        <figure class:list={[
+          'paper-card relative mx-auto w-full max-w-md overflow-hidden rounded-[2rem] rotate-[1deg]',
+          usesCardIllustration ? ['aspect-[4/3] p-6 sm:p-8', decorativeAccent] : 'aspect-[3/4] bg-sand',
+        ]}>
+          <img
+            src={visual.src}
+            alt={visual.alt}
+            width={visual.width}
+            height={visual.height}
+            class:list={['h-full w-full', usesCardIllustration ? 'object-contain' : 'object-cover']}
+            decoding="async"
+          />
         </figure>
       )}
-      {!program.heroImage && (
+      {!visual && (
         <div class:list={['paper-card relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-[2rem]', decorativeAccent]} aria-hidden="true">
           <div class="absolute -right-12 -top-12 size-48 rounded-full border-[20px] border-white/70"></div>
           <div class="absolute -bottom-16 -left-10 size-52 rotate-12 rounded-[3rem] bg-white/55"></div>

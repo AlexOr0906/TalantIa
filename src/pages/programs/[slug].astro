@@ -27,7 +27,7 @@ const description = program.seoDescription ?? program.shortDescription ?? progra
     <ProgramFacts program={program} />
     <ProgramDescription
       eyebrow={program.title}
-      text={program.longDescription}
+      text={program.longDescription ?? program.shortDescription}
       note={program.descriptionNote}
       activities={program.activities}
       ageVariants={program.ageVariants}
