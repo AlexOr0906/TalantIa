@@ -25,7 +25,13 @@ const description = program.seoDescription ?? program.shortDescription ?? progra
   <main id="top">
     <ProgramHero program={program} />
     <ProgramFacts program={program} />
-    <ProgramDescription eyebrow={program.title} text={program.longDescription} note={program.descriptionNote} />
+    <ProgramDescription
+      eyebrow={program.title}
+      text={program.longDescription}
+      note={program.descriptionNote}
+      activities={program.activities}
+      ageVariants={program.ageVariants}
+    />
     <ProgramGallery images={program.gallery} />
     <ProgramLocations branchIds={program.branches} primaryBranch={program.primaryBranch} />
     <ProgramCTA />

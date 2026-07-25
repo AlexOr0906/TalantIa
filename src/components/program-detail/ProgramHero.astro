@@ -1,13 +1,9 @@
 ---
-import { branches, type Program } from '../../data/programs';
+import { branches, getProgramAgeLabel, type Program } from '../../data/programs';
 
 interface Props { program: Program; }
 const { program } = Astro.props;
-const age = program.audience === 'adults'
-  ? 'Для взрослых'
-  : program.ageGroups[0]
-    ? `С ${program.ageGroups[0].minAge} лет`
-    : null;
+const age = getProgramAgeLabel(program, true);
 const branchLabel = program.branches.length === 2
   ? 'Оба филиала'
   : program.branches[0]
@@ -17,6 +13,8 @@ const formatLabel = program.formats.includes('group') && program.formats.include
   ? 'В группах и индивидуально'
   : program.formats.includes('individual')
     ? 'Индивидуально'
+    : program.formats.includes('group')
+      ? 'Групповые занятия'
     : program.formats.includes('express')
       ? 'Экспресс-курс'
       : program.formats.includes('regular')

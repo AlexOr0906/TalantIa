@@ -22,7 +22,8 @@
 | `/` | `/` | новая главная |
 | `/news/` | `/about/news/` | архив новостей |
 | `/deti_3-5_let/` | `/programs/?age=2-5` | возраст становится фильтром |
-| `/razvitie-detey-s-3-let/` | `/programs/razvitie-i-podgotovka/` | объединить возрастные варианты |
+| `/razvitie-detey-s-3-let/` | `/programs/razvivayka-i-akvarelka/` | прежняя страница развития сопоставлена с подтверждённой отдельной программой |
+| `/programs/razvitie-detey/` | `/programs/razvivayka-i-akvarelka/` | перенести прежний slug прототипа; настроить редирект перед публикацией |
 | `/tancy/` | `/programs/tancy/` | единая программа |
 | `/angliyskiy_s_4_let/` | `/programs/angliyskiy-yazyk/` | единая программа |
 | `/shahmaty/` | `/programs/shahmaty/` | единая программа |

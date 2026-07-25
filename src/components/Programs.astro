@@ -1,13 +1,9 @@
 ---
-import { programs } from '../data/programs';
+import { getProgramAgeLabel, programs } from '../data/programs';
 const featuredPrograms = programs.filter((program) => program.featured);
 const accentClass = { red: 'bg-[#f6ced1] text-brand', orange: 'bg-[#ffe0ad] text-[#8f5210]', gold: 'bg-[#f7e796] text-[#6e5908]', coral: 'bg-[#cce8d0] text-[#476b25]' };
 const symbols = ['✎','A','♟','✂','Aa','⚗','▶','✦'];
-const ageLabel = (program: (typeof programs)[number]) => program.audience === 'adults'
-  ? 'Для взрослых'
-  : program.ageGroups[0]
-    ? `с ${program.ageGroups[0].minAge} лет`
-    : null;
+const ageLabel = (program: (typeof programs)[number]) => getProgramAgeLabel(program);
 ---
 <section id="programs" class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]">
   <div class="container-site">

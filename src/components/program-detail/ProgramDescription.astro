@@ -1,13 +1,49 @@
 ---
-interface Props { title?: string; text?: string; eyebrow?: string; note?: string; }
-const { title = 'О занятиях', text, eyebrow, note } = Astro.props;
+import type { AgeVariant } from '../../data/programs';
+
+interface Props {
+  title?: string;
+  text?: string;
+  eyebrow?: string;
+  note?: string;
+  activities?: string[];
+  ageVariants?: AgeVariant[];
+}
+const { title = 'О занятиях', text, eyebrow, note, activities = [], ageVariants = [] } = Astro.props;
 ---
-{text && (
+{(text || activities.length > 0 || ageVariants.length > 0) && (
   <section class="section-space" aria-labelledby="program-description-title">
     <div class="container-site grid gap-8 lg:grid-cols-[.6fr_1fr]">
       <div>{eyebrow && <p class="eyebrow">{eyebrow}</p>}<h2 id="program-description-title" class="headline mt-4">{title}</h2></div>
       <div class="paper-card rounded-[2rem] bg-cream p-7 md:p-10">
-        <p class="text-xl font-bold leading-9 text-ink md:text-2xl">{text}</p>
+        {text && <p class="text-xl font-bold leading-9 text-ink md:text-2xl">{text}</p>}
+        {activities.length > 0 && (
+          <div class="mt-7">
+            <h3 class="text-lg font-black text-ink">Что происходит на занятиях</h3>
+            <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+              {activities.map((activity) => (
+                <li class="flex gap-3 rounded-2xl bg-white p-4 font-bold leading-6">
+                  <span class="mt-1 text-brand" aria-hidden="true">✦</span>
+                  <span>{activity}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {ageVariants.length > 0 && (
+          <div class="mt-7">
+            <h3 class="text-lg font-black text-ink">Группы</h3>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              {ageVariants.map((variant) => (
+                <article class="rounded-2xl border-2 border-[#d7c39c] bg-white p-5">
+                  <p class="text-xs font-black uppercase tracking-[.1em] text-brand">{variant.ageLabel}</p>
+                  <h4 class="mt-2 text-lg font-black">{variant.title}</h4>
+                  {variant.description && <p class="mt-2 text-sm leading-6 text-muted">{variant.description}</p>}
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
         {note && <p class="mt-5 leading-7 text-muted">{note}</p>}
       </div>
     </div>

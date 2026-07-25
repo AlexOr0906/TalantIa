@@ -5,15 +5,17 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import DecorativeVisual from '../components/DecorativeVisual.astro';
 import PhoneCTA from '../components/PhoneCTA.astro';
-import { branches, programs } from '../data/programs';
+import { branches, getProgramAgeLabel, programs } from '../data/programs';
 
 const visiblePrograms = programs.filter((program) => program.status === 'active' || program.status === 'planned');
-const getAge = (program: typeof programs[number]) => program.audience === 'adults' ? 'Для взрослых' : program.ageGroups[0] ? `С ${program.ageGroups[0].minAge} лет` : null;
+const getAge = (program: typeof programs[number]) => getProgramAgeLabel(program, true);
 const getBranches = (program: typeof programs[number]) => program.branches.length === 2 ? 'Оба филиала' : program.branches[0] ? branches[program.branches[0]].shortName : null;
 const getFormat = (program: typeof programs[number]) => program.formats.includes('group') && program.formats.includes('individual')
   ? 'В группах и индивидуально'
   : program.formats.includes('individual')
     ? 'Индивидуально'
+    : program.formats.includes('group')
+      ? 'Групповые занятия'
     : program.formats.includes('express')
       ? 'Экспресс-курс'
       : program.formats.includes('regular')
