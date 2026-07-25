@@ -96,6 +96,7 @@ export interface Program {
   contentStatus?: ContentStatus;
   gallery?: ProgramImage[];
   heroImage?: ProgramImage;
+  heroIllustration?: ProgramImage;
   cardImage?: ProgramImage;
   locationNote?: string;
   seoTitle?: string;
@@ -552,3 +553,16 @@ export const programs: Program[] = [
     accent: 'gold',
   },
 ];
+
+for (const program of programs) {
+  if (!program.heroImage && program.cardImage) {
+    program.heroIllustration = {
+      src: program.cardImage.src
+        .replace('/card-illustrations/', '/hero-illustrations/')
+        .replace('-illustration.webp', '-hero.webp'),
+      alt: program.cardImage.alt,
+      width: 540,
+      height: 405,
+    };
+  }
+}

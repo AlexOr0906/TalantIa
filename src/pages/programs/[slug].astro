@@ -20,7 +20,7 @@ const { program } = Astro.props;
 const title = program.seoTitle ?? `${program.title} — ТАЛАНТиЯ`;
 const description = program.seoDescription ?? program.shortDescription ?? program.title;
 ---
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={(program.heroImage ?? program.heroIllustration)?.src}>
   <Header />
   <main id="top">
     <ProgramHero program={program} />

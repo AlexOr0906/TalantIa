@@ -4,8 +4,8 @@ import { programCategoryTone } from '../../data/program-visuals';
 
 interface Props { program: Program; }
 const { program } = Astro.props;
-const visual = program.heroImage ?? program.cardImage;
-const usesCardIllustration = !program.heroImage && Boolean(program.cardImage);
+const visual = program.heroImage ?? program.heroIllustration;
+const usesIllustration = !program.heroImage && Boolean(program.heroIllustration);
 const age = getProgramAgeLabel(program, true);
 const branchLabel = program.branches.length === 2
   ? 'Оба филиала'
@@ -58,14 +58,16 @@ const decorativeAccent = programCategoryTone[program.category].surface;
       {visual && (
         <figure class:list={[
           'paper-card relative mx-auto w-full max-w-md overflow-hidden rounded-[2rem] rotate-[1deg]',
-          usesCardIllustration ? ['aspect-[4/3] p-6 sm:p-8', decorativeAccent] : 'aspect-[3/4] bg-sand',
+          usesIllustration ? ['aspect-[4/3] p-3 sm:p-5', decorativeAccent] : 'aspect-[3/4] bg-sand',
         ]}>
           <img
             src={visual.src}
             alt={visual.alt}
             width={visual.width}
             height={visual.height}
-            class:list={['h-full w-full', usesCardIllustration ? 'object-contain' : 'object-cover']}
+            class:list={['h-full w-full', usesIllustration ? 'object-contain' : 'object-cover']}
+            loading="eager"
+            fetchpriority="high"
             decoding="async"
           />
         </figure>

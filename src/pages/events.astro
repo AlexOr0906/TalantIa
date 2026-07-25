@@ -8,7 +8,7 @@ import { branches, type BranchId } from '../data/programs';
 
 const branchIds = Object.keys(branches) as BranchId[];
 ---
-<Layout title="Праздники и мастер-классы — ТАЛАНТиЯ" description="Детские праздники и творческие мастер-классы в центре «ТАЛАНТиЯ» в Челябинске.">
+<Layout title="Праздники и мастер-классы — ТАЛАНТиЯ" description="Детские праздники и творческие мастер-классы в центре «ТАЛАНТиЯ» в Челябинске." image="/images/art-studio-gallery.webp">
   <Header />
   <main id="top">
     <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
@@ -20,7 +20,8 @@ const branchIds = Object.keys(branches) as BranchId[];
             <h1 class="headline mt-5">Праздники и мастер-классы</h1>
             <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">В центре проводят детские праздники и мастер-классы. Подходящий формат выбирается в разговоре с учётом повода и интересов детей.</p>
             <div class="mt-8 flex flex-wrap gap-4">
-              <a class="button-primary" href="tel:+79193335835">Обсудить событие</a>
+              <button class="button-primary" type="button" data-open-lead-form data-interest="Праздник или мастер-класс">Оставить заявку</button>
+              <a class="button-secondary" href="tel:+79193335835">Позвонить</a>
               <a class="button-secondary" href="/programs/">Регулярные занятия</a>
             </div>
           </div>
@@ -54,8 +55,12 @@ const branchIds = Object.keys(branches) as BranchId[];
       <div class="container-site grid gap-8 lg:grid-cols-[.7fr_1fr] lg:gap-16">
         <div><p class="eyebrow">Как начать</p><h2 id="events-process-title" class="headline mt-4">Расскажите о вашем событии</h2></div>
         <div class="paper-card rounded-[2rem] bg-cream p-7 md:p-10">
-          <p class="text-xl font-bold leading-9 md:text-2xl">Позвоните в центр и расскажите о поводе. В разговоре можно выбрать формат и получить актуальные условия.</p>
-          <a class="button-primary mt-7" href="tel:+79193335835">Позвонить +7 (919) 333-58-35</a>
+          <ol class="grid gap-4">
+            <li class="rounded-2xl bg-white p-5"><p class="text-xs font-black uppercase tracking-[.1em] text-brand">Шаг 1</p><p class="mt-2 text-lg font-black">Расскажите о поводе</p><p class="mt-2 leading-7 text-muted">Оставьте заявку или позвоните и кратко опишите, какое событие планируете.</p></li>
+            <li class="rounded-2xl bg-white p-5"><p class="text-xs font-black uppercase tracking-[.1em] text-brand">Шаг 2</p><p class="mt-2 text-lg font-black">Обсудите формат</p><p class="mt-2 leading-7 text-muted">Центр расскажет об актуальных творческих вариантах и условиях проведения.</p></li>
+            <li class="rounded-2xl bg-white p-5"><p class="text-xs font-black uppercase tracking-[.1em] text-brand">Шаг 3</p><p class="mt-2 text-lg font-black">Согласуйте детали</p><p class="mt-2 leading-7 text-muted">Конкретная программа и стоимость определяются после разговора.</p></li>
+          </ol>
+          <div class="mt-7 flex flex-wrap gap-4"><button class="button-primary" type="button" data-open-lead-form data-interest="Праздник или мастер-класс">Оставить заявку</button><a class="button-secondary" href="tel:+79193335835">Позвонить</a></div>
         </div>
       </div>
     </section>

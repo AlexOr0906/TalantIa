@@ -23,7 +23,8 @@ const programsByBranch = Object.fromEntries(branchIds.map((branchId) => [branchI
             <h1 class="headline mt-5">Контакты и филиалы</h1>
             <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">Позвоните нам — поможем выбрать направление и подскажем, в каком филиале проходят подходящие занятия.</p>
             <div class="mt-8 flex flex-wrap gap-4">
-              <a class="button-primary" href="tel:+79193335835">+7 (919) 333-58-35</a>
+              <a class="button-primary" href="tel:+79193335835">Позвонить</a>
+              <button class="button-secondary" type="button" data-open-lead-form data-interest="Выбор филиала">Оставить заявку</button>
               <a class="button-secondary" href="https://vk.ru/74talantia" target="_blank" rel="noopener noreferrer">Официальная группа VK <span aria-hidden="true">↗</span></a>
             </div>
           </div>
@@ -36,6 +37,7 @@ const programsByBranch = Object.fromEntries(branchIds.map((branchId) => [branchI
       <div class="container-site">
         <p class="eyebrow">Адреса</p>
         <h2 id="branches-title" class="headline mt-4">Выберите удобный филиал</h2>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-muted">Набор направлений в филиалах различается. Сначала выберите занятие или свяжитесь с центром — подскажем подходящий адрес.</p>
         <div class="mt-10 grid gap-6 lg:grid-cols-2">
           {branchIds.map((branchId) => {
             const branch = branches[branchId];

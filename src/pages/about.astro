@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import DecorativeVisual from '../components/DecorativeVisual.astro';
 import PhoneCTA from '../components/PhoneCTA.astro';
 import { branches, type BranchId } from '../data/programs';
 
@@ -16,7 +15,7 @@ const areas = [
   { title: 'Индивидуальные занятия', text: 'Форматы, в которых программа и темп работы подбираются индивидуально.', tone: 'bg-[#dceff4]' },
 ];
 ---
-<Layout title="О детском центре ТАЛАНТиЯ в Челябинске" description="«ТАЛАНТиЯ» — детский центр в Челябинске с двумя филиалами и программами для детей и взрослых.">
+<Layout title="О детском центре ТАЛАНТиЯ в Челябинске" description="«ТАЛАНТиЯ» — детский центр в Челябинске, работающий с 2005 года. Два филиала и программы для детей и взрослых." image="/images/vk/photos/children-classroom-photo.webp">
   <Header />
   <main id="top">
     <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
@@ -29,10 +28,13 @@ const areas = [
             <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">«ТАЛАНТиЯ» — пространство, где дети учатся, экспериментируют, творят и находят друзей. Центр помогает подобрать занятия по возрасту и интересам ребёнка. У нас уютно, по-домашнему.</p>
             <div class="mt-8 flex flex-wrap gap-4">
               <a class="button-primary" href="/programs/">Выбрать направление</a>
-              <a class="button-secondary" href="tel:+79193335835">Позвонить</a>
+              <button class="button-secondary" type="button" data-open-lead-form data-interest="Знакомство с центром">Оставить заявку</button>
             </div>
           </div>
-          <DecorativeVisual label="Страна талантливых друзей" tone="orange" />
+          <figure class="paper-card relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2rem] bg-sand rotate-[1deg]">
+            <img src="/images/vk/photos/children-classroom-photo.webp" alt="Дети занимаются в центре «ТАЛАНТиЯ»" width="1080" height="755" class="h-full w-full object-cover" loading="eager" fetchpriority="high" decoding="async" />
+            <figcaption class="absolute bottom-4 left-4 rounded-full bg-white/95 px-4 py-2 text-sm font-black">Учимся · пробуем · создаём</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -44,11 +46,16 @@ const areas = [
           <h2 id="about-story-title" class="headline mt-4">Более 20 лет рядом с семьями Челябинска</h2>
         </div>
         <div class="paper-card rounded-[2rem] bg-cream p-7 md:p-10">
-          <p class="text-xl font-bold leading-9 md:text-2xl">Центр объединяет развивающие, образовательные, творческие и двигательные направления для детей, а также отдельные программы для взрослых.</p>
-          <p class="mt-5 leading-7 text-muted">Задача сайта — помочь семье увидеть актуальные направления, выбрать удобный филиал и связаться с центром для получения точного расписания и условий занятий.</p>
-          <p class="mt-5 leading-7 text-muted">«ТАЛАНТиЯ» объединяет детей и родителей, которым важно развиваться, пробовать новое и поддерживать друг друга.</p>
+          <p class="text-xl font-bold leading-9 md:text-2xl">Центр работает с 2005 года и объединяет развивающие, образовательные, творческие и двигательные направления.</p>
+          <p class="mt-5 leading-7 text-muted">За это время менялись программы и форматы, но сохранилась главная идея: давать детям возможность учиться через интерес, пробовать новое и общаться в доброжелательной среде.</p>
+          <p class="mt-5 leading-7 text-muted">Сегодня «ТАЛАНТиЯ» работает в двух филиалах Челябинска и помогает семьям выбирать занятия по возрасту и интересам ребёнка.</p>
         </div>
       </div>
+      <ol class="container-site mt-10 grid gap-4 md:grid-cols-3" aria-label="Короткая история центра">
+        <li class="paper-card rounded-[1.5rem] bg-[#fff0bd] p-6"><p class="text-sm font-black uppercase tracking-[.1em] text-brand">2005</p><p class="mt-2 text-lg font-black">Начало работы центра</p></li>
+        <li class="paper-card rounded-[1.5rem] bg-[#dceff4] p-6"><p class="text-sm font-black uppercase tracking-[.1em] text-brand">Более 20 лет</p><p class="mt-2 text-lg font-black">Развиваем программы для детей</p></li>
+        <li class="paper-card rounded-[1.5rem] bg-[#cce8d0] p-6"><p class="text-sm font-black uppercase tracking-[.1em] text-brand">Сегодня</p><p class="mt-2 text-lg font-black">Два филиала и актуальные направления</p></li>
+      </ol>
     </section>
 
     <section class="section-space" aria-labelledby="about-facts-title">
@@ -61,6 +68,21 @@ const areas = [
           <div class="paper-card rounded-[1.75rem] bg-cream p-7"><dt class="text-sm font-black uppercase tracking-[.1em] text-brand">Филиалы</dt><dd class="mt-3 text-2xl font-black">Два адреса</dd></div>
           <div class="paper-card rounded-[1.75rem] bg-cream p-7"><dt class="text-sm font-black uppercase tracking-[.1em] text-brand">Программы</dt><dd class="mt-3 text-2xl font-black">Для детей и взрослых</dd></div>
         </dl>
+      </div>
+    </section>
+
+    <section class="section-space" aria-labelledby="about-approach-title">
+      <div class="container-site grid gap-8 lg:grid-cols-[.72fr_1fr] lg:gap-16">
+        <div>
+          <p class="eyebrow">Наш подход</p>
+          <h2 id="about-approach-title" class="headline mt-4">Интерес ведёт к практике</h2>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="paper-card rounded-[1.75rem] bg-cream p-6"><h3 class="text-xl font-black">Учимся через действие</h3><p class="mt-3 leading-7 text-muted">Задания, эксперименты, движение и творчество помогают знакомиться с новым на практике.</p></article>
+          <article class="paper-card rounded-[1.75rem] bg-cream p-6"><h3 class="text-xl font-black">Сочетаем направления</h3><p class="mt-3 leading-7 text-muted">В каталоге есть интеллектуальные, творческие, двигательные и индивидуальные форматы.</p></article>
+          <article class="paper-card rounded-[1.75rem] bg-cream p-6"><h3 class="text-xl font-black">Подбираем по интересам</h3><p class="mt-3 leading-7 text-muted">Возраст, интересы ребёнка и удобный филиал помогают сузить выбор программы.</p></article>
+          <article class="paper-card rounded-[1.75rem] bg-[#fff0bd] p-6"><h3 class="text-xl font-black">У нас уютно, по-домашнему</h3><p class="mt-3 leading-7 text-muted">Мы поддерживаем спокойную и доброжелательную атмосферу, в которой комфортно пробовать новое.</p></article>
+        </div>
       </div>
     </section>
 
@@ -79,7 +101,7 @@ const areas = [
         <p class="eyebrow">Два филиала</p>
         <h2 id="about-branches-title" class="headline mt-4">Занятия в разных районах города</h2>
         <div class="mt-10 grid gap-5 md:grid-cols-2">
-          {branchIds.map((branchId) => <article class="paper-card rounded-[2rem] bg-cream p-7 md:p-9"><h3 class="text-2xl font-black">{branches[branchId].shortName}</h3><address class="mt-4 not-italic text-lg leading-7 text-muted">г. {branches[branchId].city}, {branches[branchId].address}</address></article>)}
+          {branchIds.map((branchId) => <article class="paper-card rounded-[2rem] bg-cream p-7 md:p-9"><h3 class="text-2xl font-black">{branches[branchId].shortName}</h3><address class="mt-4 not-italic text-lg leading-7 text-muted">г. {branches[branchId].city}, {branches[branchId].address}</address><a class="mt-5 inline-flex min-h-11 items-center font-extrabold text-brand hover:text-brand-dark" href="/contacts/">Подробнее о филиале <span class="ml-2" aria-hidden="true">→</span></a></article>)}
         </div>
         <a class="button-secondary mt-8" href="/contacts/">Контакты филиалов</a>
       </div>

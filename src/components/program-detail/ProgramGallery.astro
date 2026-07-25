@@ -1,14 +1,14 @@
 ---
 import type { ProgramImage } from '../../data/programs';
-interface Props { images?: ProgramImage[]; }
-const { images = [] } = Astro.props;
+interface Props { images?: ProgramImage[]; eyebrow?: string; }
+const { images = [], eyebrow = 'Живые моменты занятий' } = Astro.props;
 ---
 {images.length > 0 && (
   <section class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]" aria-labelledby="program-gallery-title">
     <div class="container-site">
-      <p class="eyebrow">Творческие занятия</p>
-      <h2 id="program-gallery-title" class="headline mt-4">Галерея</h2>
-      <div class="mt-10 grid max-w-3xl gap-5 md:grid-cols-2">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="program-gallery-title" class="headline mt-4">Как проходят занятия</h2>
+      <div class:list={['mt-10 grid gap-5', images.length > 1 ? 'max-w-4xl md:grid-cols-2' : 'max-w-2xl']}>
         {images.map((image) => (
           <figure class="paper-card overflow-hidden rounded-[2rem] bg-sand">
             <img src={image.src} alt={image.alt} width={image.width} height={image.height} class="h-auto w-full object-cover" loading="lazy" decoding="async" />
