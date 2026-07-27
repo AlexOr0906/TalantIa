@@ -1,5 +1,6 @@
 ---
-const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
+const configuredLeadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT?.trim();
+const leadEndpoint = configuredLeadEndpoint || '/api/lead.php';
 ---
 <dialog
   class="m-auto max-h-[calc(100dvh-2rem)] w-[min(100%-2rem,40rem)] overflow-y-auto rounded-[2rem] border-2 border-[#7b6248] bg-cream p-0 text-ink shadow-2xl backdrop:bg-[#2f241d]/65"
@@ -80,6 +81,7 @@ const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
   let opener: HTMLElement | null = null;
   let submitting = false;
   let previousOverflow = '';
+  let openedAt = 0;
 
   const normalizePhone = (value: string) => {
     const digits = value.replace(/\D/g, '');
@@ -126,6 +128,7 @@ const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
     const preset = trigger.dataset.interest ?? programTitle;
     if (interestInput) interestInput.value = preset;
     if (result) result.hidden = true;
+    openedAt = Date.now();
     previousOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
     dialog.showModal();
@@ -176,6 +179,7 @@ const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
       page: pageInput?.value || location.pathname,
       company: companyInput?.value ?? '',
       submissionId,
+      startedAt: openedAt || Date.now(),
     };
 
     try {
@@ -188,7 +192,10 @@ const leadEndpoint = import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '';
         },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error('Lead endpoint rejected the request');
+      const responseData = await response.json().catch(() => null);
+      if (!response.ok || responseData?.ok !== true) {
+        throw new Error('Lead endpoint rejected the request');
+      }
       setResult('success', 'Заявка отправлена. Мы свяжемся с вами выбранным способом.');
       form.reset();
     } catch {
