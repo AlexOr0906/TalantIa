@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import DecorativeVisual from '../components/DecorativeVisual.astro';
 import PhoneCTA from '../components/PhoneCTA.astro';
 import BranchMap from '../components/BranchMap.astro';
 import { branches, programs, type BranchId } from '../data/programs';
@@ -29,7 +28,39 @@ const programsByBranch = Object.fromEntries(branchIds.map((branchId) => [branchI
               <a class="button-secondary" href="https://vk.ru/74talantia" target="_blank" rel="noopener noreferrer">Официальная группа VK <span aria-hidden="true">↗</span></a>
             </div>
           </div>
-          <DecorativeVisual label="Два филиала в Челябинске" tone="green" compact />
+          <figure class="relative overflow-hidden rounded-[2rem] border-2 border-[#7b6248] bg-[#dcefe0] p-3 shadow-[6px_7px_0_#e5ded2] sm:p-4">
+            <div class="grid aspect-[8/5] grid-cols-2 gap-2 overflow-hidden rounded-[1.35rem] sm:gap-3">
+              <div class="relative min-w-0 overflow-hidden rounded-l-[1.2rem]">
+                <img
+                  class="h-full w-full object-cover"
+                  src="/images/branches/molodogvardeytsev.webp"
+                  alt="Вход в филиал «ТАЛАНТиЯ» на улице Молодогвардейцев"
+                  width="900"
+                  height="1499"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+                <span class="absolute inset-x-2 bottom-2 rounded-full bg-white/95 px-3 py-2 text-center text-xs font-black leading-tight text-ink shadow-sm sm:bottom-3 sm:text-sm">
+                  Молодогвардейцев
+                </span>
+              </div>
+              <div class="relative min-w-0 overflow-hidden rounded-r-[1.2rem]">
+                <img
+                  class="h-full w-full object-cover"
+                  src="/images/branches/university-embankment.webp"
+                  alt="Вход в филиал «ТАЛАНТиЯ» на Университетской Набережной"
+                  width="900"
+                  height="1125"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+                <span class="absolute inset-x-2 bottom-2 rounded-full bg-white/95 px-2 py-2 text-center text-xs font-black leading-tight text-ink shadow-sm sm:bottom-3 sm:px-3 sm:text-sm">
+                  Университетская Набережная
+                </span>
+              </div>
+            </div>
+            <figcaption class="sr-only">Фасады двух филиалов детского центра «ТАЛАНТиЯ» в Челябинске</figcaption>
+          </figure>
         </div>
       </div>
     </section>
