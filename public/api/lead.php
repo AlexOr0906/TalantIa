@@ -67,6 +67,124 @@ function is_safe_sender_address(string $email): bool
         ) === 1;
 }
 
+function normalize_vk_configuration(array $config): ?array
+{
+    if (($config['vk_enabled'] ?? false) !== true) {
+        return null;
+    }
+
+    $token = is_string($config['vk_group_token'] ?? null)
+        ? trim($config['vk_group_token'])
+        : '';
+    $apiVersion = is_string($config['vk_api_version'] ?? null)
+        ? trim($config['vk_api_version'])
+        : '';
+    $rawPeerIds = $config['vk_peer_ids'] ?? null;
+
+    if (
+        $token === ''
+        || preg_match('/[\x00-\x20\x7F]/', $token) === 1
+        || preg_match('/^\d+\.\d+$/D', $apiVersion) !== 1
+        || !is_array($rawPeerIds)
+        || $rawPeerIds === []
+    ) {
+        error_log('[lead] vk configuration invalid');
+        return null;
+    }
+
+    $peerIds = [];
+    foreach ($rawPeerIds as $peerId) {
+        if (!is_int($peerId) || $peerId <= 0) {
+            error_log('[lead] vk configuration invalid');
+            return null;
+        }
+        $peerIds[$peerId] = $peerId;
+    }
+
+    return [
+        'token' => $token,
+        'api_version' => $apiVersion,
+        'peer_ids' => array_values($peerIds),
+    ];
+}
+
+function vk_random_id(string $submissionId, int $peerId): int
+{
+    $hex = substr(hash('sha256', $submissionId . ':' . $peerId), 0, 8);
+    $randomId = ((int) hexdec($hex)) & 0x7fffffff;
+
+    return $randomId === 0 ? 1 : $randomId;
+}
+
+function send_vk_notification(
+    array $vkConfig,
+    string $message,
+    string $submissionId
+): void {
+    if (!function_exists('curl_init')) {
+        error_log('[lead] vk delivery unavailable');
+        return;
+    }
+
+    foreach ($vkConfig['peer_ids'] as $peerId) {
+        $request = curl_init('https://api.vk.com/method/messages.send');
+        if ($request === false) {
+            error_log('[lead] vk delivery unavailable');
+            return;
+        }
+
+        $postFields = http_build_query([
+            'access_token' => $vkConfig['token'],
+            'v' => $vkConfig['api_version'],
+            'peer_id' => $peerId,
+            'random_id' => vk_random_id($submissionId, $peerId),
+            'message' => $message,
+        ], '', '&', PHP_QUERY_RFC3986);
+
+        curl_setopt_array($request, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $postFields,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 3,
+            CURLOPT_TIMEOUT => 5,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
+        ]);
+
+        $responseBody = curl_exec($request);
+        $httpStatus = (int) curl_getinfo($request, CURLINFO_HTTP_CODE);
+        $transportFailed = $responseBody === false;
+        curl_close($request);
+
+        if ($transportFailed || $httpStatus !== 200 || !is_string($responseBody)) {
+            error_log('[lead] vk delivery failed');
+            continue;
+        }
+
+        try {
+            $response = json_decode($responseBody, true, 16, JSON_THROW_ON_ERROR);
+        } catch (JsonException) {
+            error_log('[lead] vk delivery failed');
+            continue;
+        }
+
+        if (!is_array($response) || !array_key_exists('response', $response)) {
+            $errorCode = is_array($response)
+                && is_array($response['error'] ?? null)
+                && is_int($response['error']['error_code'] ?? null)
+                    ? $response['error']['error_code']
+                    : null;
+
+            if ($errorCode !== null) {
+                error_log('[lead] vk api error code=' . $errorCode);
+            } else {
+                error_log('[lead] vk delivery failed');
+            }
+        }
+    }
+}
+
 function request_matches_current_host(): bool
 {
     $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
@@ -247,7 +365,7 @@ $messageLines = [
     'Имя: ' . ($name !== '' ? $name : 'Не указано'),
     'Телефон: ' . $phone,
     'Направление: ' . ($interest !== '' ? $interest : 'Не указано'),
-    'Способ связи: ' . $contactLabels[$contactMethod],
+    'Удобный способ связи: ' . $contactLabels[$contactMethod],
     'Страница отправки: ' . $page,
     'Дата и время: ' . date('d.m.Y H:i:s') . ' (Челябинск)',
 ];
@@ -291,5 +409,14 @@ $sentIds = array_filter(
 $sentIds[$idHash] = $now;
 $_SESSION['lead_sent_ids'] = $sentIds;
 session_write_close();
+
+$vkConfig = is_array($config) ? normalize_vk_configuration($config) : null;
+if ($vkConfig !== null) {
+    send_vk_notification(
+        $vkConfig,
+        implode("\n", $messageLines),
+        $submissionId
+    );
+}
 
 respond(200, 'Заявка принята.', true);
