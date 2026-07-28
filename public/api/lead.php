@@ -205,7 +205,7 @@ $attempts[] = $now;
 $_SESSION['lead_attempts'] = $attempts;
 session_write_close();
 
-$configPath = dirname(__DIR__, 2)
+$configPath = dirname(__DIR__)
     . DIRECTORY_SEPARATOR . 'private'
     . DIRECTORY_SEPARATOR . 'lead-config.php';
 
@@ -273,6 +273,7 @@ try {
         $sendmailParameters
     );
 } catch (Throwable) {
+    error_log('[lead] mail transport exception');
     $sent = false;
 }
 

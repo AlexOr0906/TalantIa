@@ -7,6 +7,10 @@ const source = readFileSync(
 
 const requiredFragments = [
   "function is_safe_sender_address(string $email): bool",
+  '$configPath = dirname(__DIR__)',
+  "error_log('[lead] configuration could not be loaded');",
+  "error_log('[lead] mail transport exception');",
+  "error_log('[lead] mail transport failed');",
   "preg_match('/[\\r\\n]/', $recipient) === 1",
   "'From: ' . $sender",
   "'Content-Type: text/plain; charset=UTF-8'",
@@ -17,6 +21,12 @@ const requiredFragments = [
 ];
 
 const forbiddenFragments = [
+  'dirname(__DIR__, 2)',
+  'getMessage()',
+  'getTrace',
+  'var_dump(',
+  'print_r(',
+  'display_errors',
   "'From: ' . $siteName",
   "'Content-Transfer-Encoding: 8bit'",
   "'X-Mailer:",
