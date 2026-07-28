@@ -1,9 +1,14 @@
-import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const outputDirectory = fileURLToPath(new URL('../dist/', import.meta.url));
 const basePath = '/TalantIa';
+const serverOnlyPaths = ['api', 'private', '.htaccess'];
+
+for (const path of serverOnlyPaths) {
+  await rm(join(outputDirectory, path), { recursive: true, force: true });
+}
 
 async function collectHtmlFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -28,3 +33,4 @@ for (const file of await collectHtmlFiles(outputDirectory)) {
 }
 
 console.log(`Prepared ${basePath}/ paths for GitHub Pages.`);
+console.log('Removed server-only api/, private/ and .htaccess from the Pages artifact.');

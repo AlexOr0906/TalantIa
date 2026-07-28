@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_PREVIEW_MODE: "true"
+      PUBLIC_LEAD_ENDPOINT: ""
     steps:
       - name: Checkout
         uses: actions/checkout@v4
