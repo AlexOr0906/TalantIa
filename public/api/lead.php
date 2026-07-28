@@ -57,6 +57,16 @@ function normalize_phone($value): ?string
         : null;
 }
 
+function is_safe_sender_address(string $email): bool
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false
+        && preg_match('/[\r\n]/', $email) !== 1
+        && preg_match(
+            '/^[A-Za-z0-9][A-Za-z0-9._+-]*@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/D',
+            $email
+        ) === 1;
+}
+
 function request_matches_current_host(): bool
 {
     $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
@@ -217,8 +227,8 @@ $siteName = is_array($config) ? clean_text($config['site_name'] ?? 'ТАЛАНТ
 
 if (
     filter_var($recipient, FILTER_VALIDATE_EMAIL) === false
-    || filter_var($sender, FILTER_VALIDATE_EMAIL) === false
-    || preg_match('/[\r\n]/', $recipient . $sender)
+    || preg_match('/[\r\n]/', $recipient) === 1
+    || !is_safe_sender_address($sender)
     || $siteName === ''
 ) {
     error_log('[lead] configuration is invalid');
@@ -243,17 +253,25 @@ $messageLines = [
 ];
 
 $subject = 'Новая заявка с сайта «ТАЛАНТиЯ»';
-$encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+$encodedSubject = function_exists('mb_encode_mimeheader')
+    ? mb_encode_mimeheader($subject, 'UTF-8', 'B', "\r\n")
+    : '=?UTF-8?B?' . base64_encode($subject) . '?=';
 $headers = [
     'From: ' . $sender,
-    'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
-    'Content-Transfer-Encoding: 8bit',
-    'X-Mailer: PHP/' . PHP_MAJOR_VERSION,
 ];
+$headerBlock = implode("\r\n", $headers);
+$messageBody = implode("\r\n", $messageLines);
+$sendmailParameters = '-f' . $sender;
 
 try {
-    $sent = mail($recipient, $encodedSubject, implode(PHP_EOL, $messageLines), $headers);
+    $sent = mail(
+        $recipient,
+        $encodedSubject,
+        $messageBody,
+        $headerBlock,
+        $sendmailParameters
+    );
 } catch (Throwable) {
     $sent = false;
 }
