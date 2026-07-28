@@ -33,17 +33,8 @@ export interface AgeVariant {
   source: ContentSource;
 }
 
-export interface ProgramPrice {
-  label: string;
-  amount?: number;
-  currency?: 'RUB';
-  unit: 'lesson' | 'hour' | 'course' | 'month' | 'unknown';
-  source: ContentSource;
-  /** Only unambiguous prices are rendered publicly. */
-  isPublic?: boolean;
-}
-
 export interface ProgramSchedule {
+  displayText?: string;
   frequency?: string;
   durationMinutes?: number;
   note?: string;
@@ -57,6 +48,8 @@ export interface Branch {
   shortName: string;
   city: string;
   address: string;
+  mapSearchUrl: string;
+  mapEmbedUrl: string;
 }
 
 export interface ProgramImage {
@@ -79,7 +72,6 @@ export interface Program {
   duration: string | null;
   groupSize: string | null;
   schedule?: ProgramSchedule;
-  price?: ProgramPrice | ProgramPrice[];
   trialLesson: boolean | null;
   trialLessonNote?: string;
   trialLessonSource?: ContentSource;
@@ -119,8 +111,22 @@ const emptyDetails = {
 };
 
 export const branches: Record<BranchId, Branch> = {
-  'branch-1': { id: 'branch-1', shortName: 'Молодогвардейцев', city: 'Челябинск', address: 'ул. Молодогвардейцев, 39В' },
-  'branch-2': { id: 'branch-2', shortName: 'Университетская Набережная', city: 'Челябинск', address: 'ул. Университетская Набережная, 48' },
+  'branch-1': {
+    id: 'branch-1',
+    shortName: 'Молодогвардейцев',
+    city: 'Челябинск',
+    address: 'ул. Молодогвардейцев, 39В',
+    mapSearchUrl: 'https://yandex.ru/maps/?text=Челябинск%2C%20ул.%20Молодогвардейцев%2C%2039В',
+    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?text=Челябинск%2C%20ул.%20Молодогвардейцев%2C%2039В&z=16',
+  },
+  'branch-2': {
+    id: 'branch-2',
+    shortName: 'Университетская Набережная',
+    city: 'Челябинск',
+    address: 'ул. Университетская Набережная, 48',
+    mapSearchUrl: 'https://yandex.ru/maps/?text=Челябинск%2C%20ул.%20Университетская%20Набережная%2C%2048',
+    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?text=Челябинск%2C%20ул.%20Университетская%20Набережная%2C%2048&z=16',
+  },
 };
 
 const fromAge = (minAge: number): AgeGroup[] => [{ minAge, maxAge: null }];
@@ -149,7 +155,7 @@ export const programs: Program[] = [
     slug: 'razvivayka-i-akvarelka',
     title: 'Развивайка & Акварелька',
     cardImage: { src: '/images/vk/card-illustrations/razvivayka-illustration.webp', alt: 'Дети с цифрами, рисунком и радугой', width: 320, height: 320 },
-    shortDescription: 'Комплексная программа, которая объединяет развивающие и творческие занятия.',
+    shortDescription: 'Развивающие задания и творчество в одном занятии.',
     shortDescriptionStatus: 'confirmed',
     category: 'Развитие и учёба',
     ageGroups: [{ minAge: 3, maxAge: 7, source: 'current-vk-card' }],
@@ -180,15 +186,14 @@ export const programs: Program[] = [
       },
     ],
     branches: ['branch-1', 'branch-2'],
-    longDescription: 'Программа объединяет «Развивайку» — чтение, развитие речи, логику, математику и знакомство с окружающим миром — и «Акварельку» с творческими занятиями.',
-    activities: ['Чтение и развитие речи', 'Логика и математика', 'Знакомство с окружающим миром', 'Творческие занятия'],
+    longDescription: 'Занятия состоят из двух частей. На «Развивайке» дети развивают речь, учатся читать, знакомятся с математикой, логикой и окружающим миром. На «Акварельке» рисуют, мастерят и работают с разными материалами, развивая воображение и мелкую моторику.',
+    activities: ['Чтение и развитие речи', 'Логика и математика', 'Знакомство с окружающим миром', 'Творчество и работа с разными материалами'],
     schedule: {
       frequency: '2 раза в неделю',
       note: 'Два занятия по 45 минут; 16 или 18 занятий в месяц',
       source: 'current-vk-description',
       isPublic: true,
     },
-    price: { label: '406 ₽', amount: 406, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'red',
   },
@@ -197,12 +202,13 @@ export const programs: Program[] = [
     slug: 'podgotovka-k-shkole',
     title: 'Подготовка к школе',
     cardImage: { src: '/images/vk/card-illustrations/school-preparation-illustration.webp', alt: 'Дети занимаются с буквами, цифрами и рисунками', width: 320, height: 320 },
-    shortDescription: 'Занятия для уверенного старта и знакомства с учебными задачами.',
-    shortDescriptionStatus: 'draft',
+    shortDescription: 'Готовимся к школьному формату: развиваем речь, внимание, память и мышление, знакомимся с чтением, письмом и математикой.',
+    shortDescriptionStatus: 'confirmed',
     category: 'Развитие и учёба',
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
-    price: { label: '406 ₽', amount: 406, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
+    longDescription: 'Занятия помогают ребёнку подготовиться к школьному формату: развивать речь, внимание, память и мышление, знакомиться с основами чтения, письма и математики, учиться слушать педагога и самостоятельно выполнять задания.',
+    activities: ['Чтение и развитие речи', 'Основы письма и подготовка руки', 'Математика и логические задания', 'Внимание, память и мышление', 'Знакомство с окружающим миром', 'Подготовка к формату школьного занятия'],
     contentStatus: 'conflicting',
     accent: 'red',
     featured: true,
@@ -220,7 +226,6 @@ export const programs: Program[] = [
     longDescription: 'На занятиях дети знакомятся с английской речью через игры и практические задания, а школьники работают с лексикой, грамматикой, чтением и общением.',
     activities: ['Игровые задания на английском', 'Работа с лексикой и грамматикой', 'Чтение и разговорная практика'],
     schedule: { frequency: '2 раза в неделю', durationMinutes: 45, source: 'current-vk-description', isPublic: true },
-    price: { label: '500 ₽', amount: 500, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     accent: 'orange',
     featured: true,
@@ -252,11 +257,10 @@ export const programs: Program[] = [
     formats: ['group'],
     groupSize: '4–6 человек',
     trialLesson: true,
-    trialLessonNote: 'Бесплатное пробное занятие перед формированием групп',
+    trialLessonNote: 'Пробное занятие перед формированием групп',
     trialLessonSource: 'current-vk-description',
-    longDescription: 'Программа помогает познакомиться с буквами и чтением, а также подготовиться к учебным задачам и работе в небольшой группе.',
+    longDescription: 'На занятиях дети знакомятся с буквами и чтением, а также готовятся к учебным задачам и работе в небольшой группе.',
     activities: ['Буквы и звуки', 'Слоги и первые тексты', 'Задания на письмо и логику'],
-    price: { label: '700 ₽/час', amount: 700, currency: 'RUB', unit: 'hour', source: 'current-vk-card', isPublic: true },
     contentStatus: 'confirmed',
     accent: 'orange',
   },
@@ -272,7 +276,6 @@ export const programs: Program[] = [
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Занятия объединяют основы хореографии, гимнастики и общей физической подготовки. Дети осваивают движения и танцевальные связки, работают с координацией, ритмом и пластикой.',
     activities: ['Основы хореографии', 'Гимнастические упражнения', 'Танцевальные связки и работа с ритмом'],
-    price: { label: '350 ₽', amount: 350, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'coral',
   },
@@ -289,8 +292,13 @@ export const programs: Program[] = [
     longDescription: 'Дети знакомятся с правилами игры, шахматными фигурами и основными комбинациями, учатся анализировать позицию и продумывать свои действия.',
     activities: ['Правила и шахматные фигуры', 'Основные комбинации', 'Анализ позиции и выбор хода'],
     groupSize: 'До 8 человек',
-    schedule: { frequency: '2 раза в неделю', durationMinutes: 45, source: 'current-vk-description', isPublic: true },
-    price: { label: '450 ₽', amount: 450, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
+    schedule: {
+      displayText: 'Занятия проходят 1 или 2 раза в неделю. Продолжительность — 45 или 90 минут, в зависимости от выбранной группы.',
+      frequency: '1 или 2 раза в неделю',
+      note: 'Продолжительность — 45 или 90 минут, в зависимости от выбранной группы',
+      source: 'owner-confirmed',
+      isPublic: true,
+    },
     contentStatus: 'conflicting',
     accent: 'gold',
     featured: true,
@@ -300,16 +308,15 @@ export const programs: Program[] = [
     slug: 'nauchnaya-laboratoriya',
     title: 'Научная лаборатория',
     cardImage: { src: '/images/vk/card-illustrations/science-lab-illustration.webp', alt: 'Юная исследовательница проводит опыт за лабораторным столом', width: 320, height: 320 },
-    shortDescription: 'Наблюдаем, задаём вопросы и знакомимся с исследовательским подходом.',
-    shortDescriptionStatus: 'draft',
+    shortDescription: 'В игровой форме знакомимся с естественными науками, проводим опыты и учимся анализировать наблюдения.',
+    shortDescriptionStatus: 'confirmed',
     category: 'Логика и наука',
     ageGroups: fromAge(6),
     branches: ['branch-1'],
-    longDescription: 'На занятиях дети знакомятся с естественными науками, проводят опыты, наблюдают явления, задают вопросы и учатся анализировать результаты.',
-    activities: ['Опыты и наблюдения', 'Знакомство с физикой, химией и биологией', 'Исследовательские задачи'],
+    longDescription: 'На занятиях дети в игровой форме знакомятся с естественными науками, проводят опыты, наблюдают явления, задают вопросы и учатся анализировать результаты.',
+    activities: ['Опыты и наблюдения', 'Игровое знакомство с физикой, химией и биологией', 'Вопросы и поиск объяснений', 'Исследовательские задания', 'Обсуждение и анализ результатов'],
     groupSize: 'До 8 человек',
-    schedule: { frequency: '1 раз в неделю', note: 'Есть утренние и вечерние группы', source: 'current-vk-description', isPublic: true },
-    price: { label: '600 ₽', amount: 600, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
+    schedule: { displayText: 'По субботам', frequency: 'По субботам', source: 'owner-confirmed', isPublic: true },
     contentStatus: 'conflicting',
     accent: 'red',
     featured: true,
@@ -327,7 +334,6 @@ export const programs: Program[] = [
     longDescription: 'На занятиях дети знакомятся с механикой и робототехникой, собирают модели по схемам и создают для них простые программы.',
     activities: ['Сборка моделей по схемам', 'Основы механики', 'Программирование собранных моделей'],
     schedule: { frequency: '4 раза в месяц', note: 'По субботам', source: 'current-vk-description', isPublic: true },
-    price: { label: '600 ₽', amount: 600, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'gold',
   },
@@ -345,7 +351,6 @@ export const programs: Program[] = [
     longDescription: 'Занятия посвящены постановке руки, технике письма и последовательной работе над формой букв. Курс помогает ребёнку внимательнее контролировать процесс письма.',
     activities: ['Постановка руки', 'Техника письма', 'Отработка букв и соединений'],
     duration: '10–12 занятий',
-    price: { label: 'По договорённости', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'orange',
   },
@@ -362,7 +367,6 @@ export const programs: Program[] = [
     longDescription: 'На занятиях ребята придумывают сценарии, снимают и монтируют видеоролики, знакомятся с фото- и видеотехникой и программами для создания контента.',
     activities: ['Сценарии и идеи', 'Съёмка видео', 'Монтаж роликов'],
     schedule: { frequency: '1 раз в неделю', durationMinutes: 60, source: 'current-vk-description', isPublic: true },
-    price: { label: '600 ₽', amount: 600, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     accent: 'coral',
     featured: true,
@@ -380,7 +384,6 @@ export const programs: Program[] = [
     longDescription: 'Занятия объединяют упражнения на чтение, речь, внимание, память, мышление и понимание прочитанного.',
     activities: ['Работа с буквами, слогами и словами', 'Упражнения на внимание и память', 'Понимание текста'],
     schedule: { frequency: '2 раза в неделю', durationMinutes: 45, note: 'В документе указаны вторник и четверг, 17:30; актуальность времени требует подтверждения', source: 'conflict' },
-    price: { label: 'От 800 ₽', amount: 800, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     accent: 'orange',
     featured: true,
@@ -397,7 +400,6 @@ export const programs: Program[] = [
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Дети создают украшения и фигурки из бисера, знакомятся с базовыми и более сложными техниками плетения.',
     activities: ['Плоские фигурки и украшения', 'Плетение крестиком', 'Кирпичное плетение и объёмные фигурки'],
-    price: { label: '500 ₽', amount: 500, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     accent: 'gold',
     featured: true,
@@ -417,7 +419,6 @@ export const programs: Program[] = [
     longDescription: 'На регулярных занятиях дети рисуют, знакомятся с искусством и пробуют разные художественные техники.',
     activities: ['Работа с цветом', 'Создание собственных сюжетов', 'Знакомство с художественными материалами и техниками'],
     schedule: { frequency: '1 раз в неделю', source: 'current-vk-description', isPublic: true },
-    price: { label: '800 ₽', amount: 800, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     descriptionNote: 'Арт-студия — самостоятельное регулярное направление и отличается от творческой мастерской.',
     heroImage: {
@@ -444,10 +445,6 @@ export const programs: Program[] = [
     branches: ['branch-1'],
     longDescription: 'На занятиях участники создают изображения песком на световом столе и знакомятся с выразительными возможностями песочной анимации.',
     activities: ['Работа с песком на световом столе', 'Создание отдельных образов и композиций'],
-    price: [
-      { label: 'Групповое занятие — 800 ₽', amount: 800, currency: 'RUB', unit: 'lesson', source: 'current-vk-description', isPublic: true },
-      { label: 'Индивидуальное занятие — 1000 ₽', amount: 1000, currency: 'RUB', unit: 'lesson', source: 'current-vk-description', isPublic: true },
-    ],
     heroImage: {
       src: '/images/vk/photos/sand-animation-photo.webp',
       alt: 'Создание рисунка песком на световом столе',
@@ -476,7 +473,6 @@ export const programs: Program[] = [
     duration: '5 встреч по 90 минут',
     longDescription: 'На каждой встрече дети знакомятся с одним художником, его произведениями и особенностями стиля, а затем создают собственную работу по мотивам увиденного.',
     activities: ['Знакомство с художником и его работами', 'Обсуждение художественного стиля', 'Создание собственной картины'],
-    price: { label: '900 ₽', amount: 900, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'coral',
   },
@@ -504,7 +500,6 @@ export const programs: Program[] = [
     formats: ['individual'],
     longDescription: 'Ребёнок выбирает тему и последовательно проходит путь от идеи до готового проекта: формулирует цель, ищет информацию, проводит исследование и готовится представить результат.',
     activities: ['Выбор темы и постановка цели', 'Исследование или эксперимент', 'Оформление и представление результата'],
-    price: { label: 'По договорённости', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
     accent: 'red',
   },
@@ -521,7 +516,6 @@ export const programs: Program[] = [
     accent: 'coral',
     status: 'active',
     longDescription: 'Занятия физической активностью для мам с разным уровнем подготовки включают упражнения на укрепление мышц, гибкость и выносливость.',
-    price: { label: 'От 450 ₽', amount: 450, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'conflicting',
   },
   {
@@ -548,7 +542,6 @@ export const programs: Program[] = [
     branches: ['branch-1', 'branch-2'],
     longDescription: 'На консультации оценивают особенности речи ребёнка и определяют подходящий план дальнейших занятий.',
     activities: ['Оценка особенностей речи', 'Рекомендации по дальнейшим занятиям'],
-    price: { label: '800 ₽', amount: 800, currency: 'RUB', unit: 'unknown', source: 'current-vk-card' },
     contentStatus: 'confirmed',
     accent: 'gold',
   },

@@ -1,5 +1,5 @@
 ---
-import { branches, getProgramAgeLabel, type Program, type ProgramPrice } from '../data/programs';
+import { branches, getProgramAgeLabel, type Program } from '../data/programs';
 import { programCategoryTone } from '../data/program-visuals';
 
 interface Props {
@@ -34,9 +34,6 @@ const formatLabel = program.formats.includes('group') && program.formats.include
       ? 'Экспресс-курс'
       : null;
 const metaLabels = [ageLabel, branchLabel, program.launchNote ?? formatLabel].filter(Boolean).slice(0, 3);
-const publicPrices = (Array.isArray(program.price) ? program.price : program.price ? [program.price] : [])
-  .filter((price: ProgramPrice) => price.isPublic);
-const publicPriceLabel = publicPrices.length === 1 ? publicPrices[0].label : null;
 const detailsHref = `/programs/${program.slug}/`;
 ---
 <article
@@ -74,10 +71,7 @@ const detailsHref = `/programs/${program.slug}/`;
   )}
   {program.shortDescription && <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>}
   {program.primaryBranch && <p class="mt-3 text-xs leading-5 text-muted">Основные занятия — на Университетской Набережной</p>}
-  <div class="mt-auto flex items-end justify-between gap-3 pt-6">
-    {publicPriceLabel
-      ? <span class="rounded-full bg-white px-3 py-2 text-sm font-black text-ink">{publicPriceLabel}</span>
-      : <span aria-hidden="true"></span>}
+  <div class="mt-auto flex items-end justify-end gap-3 pt-6">
     <a class="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-brand px-4 py-2 font-extrabold text-brand after:content-['→'] hover:bg-brand hover:text-white" href={detailsHref} aria-label={`Узнать подробнее: ${program.title}`}>Подробнее</a>
   </div>
 </article>

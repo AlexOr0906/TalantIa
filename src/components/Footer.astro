@@ -1,6 +1,6 @@
 ---
 import { branches } from '../data/programs';
-const links = [['Направления', '/programs/'], ['Расписание и цены', '/schedule/'], ['Праздники', '/events/'], ['О центре', '/about/'], ['Контакты', '/contacts/']];
+const links = [['Направления', '/programs/'], ['Праздники', '/events/'], ['О центре', '/about/'], ['Контакты', '/contacts/']];
 const currentPath = Astro.url.pathname;
 const isCurrent = (href: string) => currentPath.startsWith(href);
 ---

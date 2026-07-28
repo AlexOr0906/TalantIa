@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import DecorativeVisual from '../components/DecorativeVisual.astro';
 import PhoneCTA from '../components/PhoneCTA.astro';
+import BranchMap from '../components/BranchMap.astro';
 import { branches, programs, type BranchId } from '../data/programs';
 
 const visiblePrograms = programs.filter((program) => program.status === 'active' || program.status === 'planned');
@@ -40,25 +41,8 @@ const programsByBranch = Object.fromEntries(branchIds.map((branchId) => [branchI
         <p class="mt-5 max-w-3xl text-lg leading-8 text-muted">Набор направлений в филиалах различается. Сначала выберите занятие или свяжитесь с центром — подскажем подходящий адрес.</p>
         <div class="mt-10 grid gap-6 lg:grid-cols-2">
           {branchIds.map((branchId) => {
-            const branch = branches[branchId];
             const branchPrograms = programsByBranch[branchId];
-            return (
-              <article class="paper-card flex flex-col rounded-[2rem] bg-cream p-6 md:p-9">
-                <p class="text-xs font-black uppercase tracking-[.12em] text-brand">Филиал</p>
-                <h3 class="mt-3 text-2xl font-black leading-tight md:text-3xl">{branch.shortName}</h3>
-                <address class="mt-4 not-italic text-lg leading-7 text-muted">г. {branch.city}, {branch.address}</address>
-                <h4 class="mt-8 text-lg font-black">Направления в филиале</h4>
-                <ul class="mt-3 grid gap-1 sm:grid-cols-2">
-                  {branchPrograms.map((program) => (
-                    <li>
-                      <a class="flex min-h-11 items-center gap-2 rounded-xl px-2 py-2 font-bold hover:bg-white hover:text-brand" href={`/programs/${program.slug}/`}>
-                        <span aria-hidden="true">→</span><span>{program.title}{program.status === 'planned' && program.launchNote ? <small class="ml-2 rounded-full bg-[#fff3b5] px-2 py-1 text-xs">{program.launchNote}</small> : null}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
+            return <BranchMap branchId={branchId} programs={branchPrograms} />;
           })}
         </div>
       </div>

@@ -2,11 +2,13 @@ DirectoryIndex index.html
 Options -Indexes
 AddDefaultCharset UTF-8
 
-ErrorDocument 404 /404/index.html
+RedirectMatch 301 ^/schedule/?$ /programs/
+
+ErrorDocument 404 /404.html
 
 <IfModule mod_headers.c>
     <IfModule mod_setenvif.c>
-        SetEnvIfNoCase Host "^cl330450\.tw1\.ru(?::[0-9]+)?$" is_timeweb_preview
+        SetEnvIfNoCase Host "^(cl330450|talantia)\.tw1\.ru(?::[0-9]+)?$" is_timeweb_preview
         Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=is_timeweb_preview
     </IfModule>
 </IfModule>

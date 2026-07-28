@@ -1,5 +1,5 @@
 ---
-import { branches, getProgramAgeLabel, type Program, type ProgramPrice } from '../../data/programs';
+import { branches, getProgramAgeLabel, type Program } from '../../data/programs';
 interface Props { program: Program; additionalFacts?: Array<{ label: string; value: string }>; }
 const { program, additionalFacts = [] } = Astro.props;
 const ageLabel = getProgramAgeLabel(program, true);
@@ -21,15 +21,12 @@ const formatValue = program.formats.includes('group') && program.formats.include
         ? 'Регулярные занятия'
         : null;
 const scheduleValue = program.schedule?.isPublic
-  ? [
+  ? program.schedule.displayText ?? [
       program.schedule.frequency,
       program.schedule.durationMinutes ? `по ${program.schedule.durationMinutes} минут` : null,
       program.schedule.note,
     ].filter(Boolean).join(', ')
   : null;
-const prices = (Array.isArray(program.price) ? program.price : program.price ? [program.price] : [])
-  .filter((price: ProgramPrice) => price.isPublic);
-const priceValue = prices.length > 0 ? prices.map((price) => price.label).join(' · ') : null;
 const facts = [
   ageFact,
   branchFact,
@@ -37,7 +34,6 @@ const facts = [
   scheduleValue ? { label: 'Расписание', value: scheduleValue } : null,
   program.duration ? { label: 'Продолжительность', value: program.duration } : null,
   program.groupSize ? { label: 'Группа', value: program.groupSize } : null,
-  priceValue ? { label: prices.length > 1 ? 'Стоимость' : 'Стоимость', value: priceValue } : null,
   program.trialLessonNote ? { label: 'Пробное занятие', value: program.trialLessonNote } : null,
   program.status === 'planned' && program.launchNote ? { label: 'Запуск', value: program.launchNote } : null,
   ...additionalFacts,

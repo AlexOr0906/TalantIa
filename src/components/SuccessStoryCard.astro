@@ -1,0 +1,40 @@
+---
+import type { SuccessStory } from '../data/successStories';
+import SuccessStoryVideo from './SuccessStoryVideo.astro';
+
+interface Props {
+  story: SuccessStory;
+}
+
+const { story } = Astro.props;
+const canPublish = story.contentStatus === 'published' && story.consentConfirmed;
+---
+{canPublish && (
+  <article class="paper-card overflow-hidden rounded-[2rem] bg-cream">
+    {story.photo && (
+      <img
+        class="aspect-[4/3] w-full object-cover"
+        src={story.photo.src}
+        alt={story.photo.alt}
+        width={story.photo.width}
+        height={story.photo.height}
+        loading="lazy"
+        decoding="async"
+      />
+    )}
+    <div class="p-6 md:p-8">
+      <p class="eyebrow">Мы ими гордимся</p>
+      <h2 class="mt-4 text-2xl font-black">{story.fullName}</h2>
+      <p class="mt-2 text-lg font-bold">{story.shortTitle}</p>
+      <p class="mt-4 leading-7 text-muted">{story.shortStory}</p>
+      {(story.relatedProgram || story.periodAtCenter || story.confirmedAchievement) && (
+        <dl class="mt-6 grid gap-3">
+          {story.relatedProgram && <div><dt class="text-xs font-black uppercase tracking-[.1em] text-brand">Направление</dt><dd class="mt-1 font-bold">{story.relatedProgram}</dd></div>}
+          {story.periodAtCenter && <div><dt class="text-xs font-black uppercase tracking-[.1em] text-brand">Период занятий</dt><dd class="mt-1 font-bold">{story.periodAtCenter}</dd></div>}
+          {story.confirmedAchievement && <div><dt class="text-xs font-black uppercase tracking-[.1em] text-brand">Достижение</dt><dd class="mt-1 font-bold">{story.confirmedAchievement}</dd></div>}
+        </dl>
+      )}
+      {(story.localVideo || story.externalVideoUrl) && <div class="mt-6"><SuccessStoryVideo story={story} /></div>}
+    </div>
+  </article>
+)}

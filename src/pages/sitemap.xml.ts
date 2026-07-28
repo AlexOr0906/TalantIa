@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { programs } from '../data/programs';
 
-const staticPaths = ['/', '/programs/', '/schedule/', '/events/', '/about/', '/contacts/'];
+const staticPaths = ['/', '/programs/', '/events/', '/about/', '/contacts/'];
 const programPaths = programs
   .filter((program) => program.status === 'active' || program.status === 'planned')
   .map((program) => `/programs/${program.slug}/`);
