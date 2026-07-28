@@ -17,6 +17,16 @@
   <path d="M136 356c0-63 51-114 114-114s114 51 114 114" fill="none" stroke="#f8cf4b" stroke-width="28"/>
   <path d="M164 356c0-47 38-86 86-86s86 39 86 86" fill="none" stroke="#78a942" stroke-width="28"/>
 
+  <!-- pencil, tucked behind the book -->
+  <g transform="translate(527 344) rotate(16 29 121)">
+    <rect x="4" y="34" width="50" height="154" rx="10" fill="#f8b62d" stroke="#6e5139" stroke-width="7"/>
+    <rect x="4" y="4" width="50" height="40" rx="13" fill="#ef7f86" stroke="#6e5139" stroke-width="7"/>
+    <path d="M4 52h50" fill="none" stroke="#6e5139" stroke-width="7"/>
+    <path d="m4 188 25 51 25-51Z" fill="#f1d7a8" stroke="#6e5139" stroke-width="7" stroke-linejoin="round"/>
+    <path d="m21 223 8 16 8-16Z" fill="#443426"/>
+    <path d="M18 65v108" fill="none" stroke="#fff1b8" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+  </g>
+
   <!-- open book -->
   <path d="M87 474c112-38 210-17 274 59v183c-79-65-169-83-274-48Z" fill="#fffdf4" stroke="#6e5139" stroke-width="8" stroke-linejoin="round"/>
   <path d="M633 474c-112-38-210-17-272 59v183c78-65 168-83 272-48Z" fill="#fffdf4" stroke="#6e5139" stroke-width="8" stroke-linejoin="round"/>
@@ -31,15 +41,6 @@
   <g transform="translate(224 389) rotate(6)">
     <rect width="106" height="106" rx="20" fill="#78a942" stroke="#6e5139" stroke-width="7"/>
     <text x="53" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="56" font-weight="700" fill="#fff">Б</text>
-  </g>
-
-  <!-- pencil -->
-  <g transform="translate(502 390) rotate(17)">
-    <rect width="58" height="218" rx="22" fill="#f8b62d" stroke="#6e5139" stroke-width="7"/>
-    <path d="M0 173h58l-29 68Z" fill="#f1d7a8" stroke="#6e5139" stroke-width="7" stroke-linejoin="round"/>
-    <path d="m20 219 9 22 9-22Z" fill="#443426"/>
-    <path d="M0 44h58" stroke="#6e5139" stroke-width="7"/>
-    <rect width="58" height="43" rx="18" fill="#ef7f86"/>
   </g>
 
   <!-- stars and doodles -->

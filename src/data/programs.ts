@@ -116,16 +116,16 @@ export const branches: Record<BranchId, Branch> = {
     shortName: 'Молодогвардейцев',
     city: 'Челябинск',
     address: 'ул. Молодогвардейцев, 39В',
-    mapSearchUrl: 'https://yandex.ru/maps/?text=Челябинск%2C%20ул.%20Молодогвардейцев%2C%2039В',
-    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?text=Челябинск%2C%20ул.%20Молодогвардейцев%2C%2039В&z=16',
+    mapSearchUrl: 'https://yandex.ru/maps/-/CTrryLmC',
+    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?ll=61.336595%2C55.184864&mode=search&oid=1283608024&ol=biz&z=16',
   },
   'branch-2': {
     id: 'branch-2',
     shortName: 'Университетская Набережная',
     city: 'Челябинск',
     address: 'ул. Университетская Набережная, 48',
-    mapSearchUrl: 'https://yandex.ru/maps/?text=Челябинск%2C%20ул.%20Университетская%20Набережная%2C%2048',
-    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?text=Челябинск%2C%20ул.%20Университетская%20Набережная%2C%2048&z=16',
+    mapSearchUrl: 'https://yandex.ru/maps/-/CTrryQlO',
+    mapEmbedUrl: 'https://yandex.ru/map-widget/v1/?ll=61.327655%2C55.175053&mode=search&oid=112967675864&ol=biz&z=16',
   },
 };
 
