@@ -413,9 +413,10 @@ export const programs: Program[] = [
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Дети создают украшения и фигурки из бисера, знакомятся с базовыми и более сложными техниками плетения.',
     activities: ['Плоские фигурки и украшения', 'Плетение крестиком', 'Кирпичное плетение и объёмные фигурки'],
+    status: 'archived',
     contentStatus: 'conflicting',
     accent: 'gold',
-    featured: true,
+    featured: false,
   },
   {
     ...emptyDetails,
