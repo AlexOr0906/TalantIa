@@ -24,7 +24,7 @@ const leadEndpoint = previewMode ? '' : configuredLeadEndpoint || '/api/lead.php
 
       <div class="mt-5">
         <label class="block font-extrabold" for="lead-phone">Телефон <span class="text-brand" aria-hidden="true">*</span></label>
-        <input class="mt-2 min-h-12 w-full rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 text-lg focus-visible:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 999 123-45-67" required aria-describedby="lead-phone-error" />
+        <input class="mt-2 min-h-12 w-full rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 text-lg focus-visible:border-brand focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-brand" id="lead-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+7 ___ ___-**-**" required aria-describedby="lead-phone-error" />
         <p id="lead-phone-error" class="mt-2 text-sm font-bold text-brand" data-phone-error hidden>Введите российский номер телефона из 11 цифр.</p>
       </div>
 
@@ -41,8 +41,8 @@ const leadEndpoint = previewMode ? '' : configuredLeadEndpoint || '/api/lead.php
             Телефон
           </label>
           <label class="flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border-2 border-[#bda982] bg-white px-4 py-3 font-bold has-[:checked]:border-brand has-[:checked]:bg-[#fff3ee]">
-            <input class="size-5 accent-brand" name="contactMethod" type="radio" value="telegram" />
-            Telegram
+            <input class="size-5 accent-brand" name="contactMethod" type="radio" value="max" />
+            MAX
           </label>
         </div>
       </fieldset>
@@ -66,6 +66,8 @@ const leadEndpoint = previewMode ? '' : configuredLeadEndpoint || '/api/lead.php
 </dialog>
 
 <script>
+  type ContactMethod = 'phone' | 'max';
+
   const dialog = document.querySelector<HTMLDialogElement>('[data-lead-dialog]');
   const form = dialog?.querySelector<HTMLFormElement>('[data-lead-form]');
   const nameInput = form?.elements.namedItem('name') as HTMLInputElement | null;
@@ -170,7 +172,8 @@ const leadEndpoint = previewMode ? '' : configuredLeadEndpoint || '/api/lead.php
     setResult('loading', 'Отправляем заявку…');
 
     const submissionId = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-    const contactMethod = (new FormData(form).get('contactMethod') as string | null) ?? 'phone';
+    const selectedContactMethod = new FormData(form).get('contactMethod');
+    const contactMethod: ContactMethod = selectedContactMethod === 'max' ? 'max' : 'phone';
     const payload = {
       name: nameInput?.value.trim() ?? '',
       phone: normalizePhone(phoneInput.value),

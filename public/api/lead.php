@@ -287,7 +287,7 @@ if ($phone === null) {
 if (!$consent) {
     respond(422, 'Необходимо согласие на обработку персональных данных.');
 }
-if ($contactMethod !== '' && !in_array($contactMethod, ['phone', 'telegram'], true)) {
+if ($contactMethod !== '' && !in_array($contactMethod, ['phone', 'max'], true)) {
     respond(422, 'Некорректный способ связи.');
 }
 if ($submissionId === '' || !preg_match('/^[A-Za-z0-9._-]{8,128}$/', $submissionId)) {
@@ -355,7 +355,7 @@ if (
 
 $contactLabels = [
     'phone' => 'Телефон',
-    'telegram' => 'Telegram',
+    'max' => 'MAX',
     '' => 'Не указан',
 ];
 

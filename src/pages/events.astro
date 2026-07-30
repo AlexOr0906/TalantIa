@@ -8,7 +8,7 @@ import { branches, type BranchId } from '../data/programs';
 
 const branchIds = Object.keys(branches) as BranchId[];
 ---
-<Layout title="Праздники и мастер-классы — ТАЛАНТиЯ" description="Детские праздники и творческие мастер-классы в центре «ТАЛАНТиЯ» в Челябинске." image="/images/art-studio-gallery.webp">
+<Layout title="Праздники и мастер-классы — ТАЛАНТиЯ" description="Праздники для детей и семей, творческие мастер-классы и каникулярные мероприятия в центре «ТАЛАНТиЯ» в Челябинске." image="/images/art-studio-gallery.webp">
   <Header />
   <main id="top">
     <section class="relative overflow-hidden border-b-2 border-[#d3bd92] pb-16 pt-8 md:pb-24 md:pt-10">
@@ -18,7 +18,7 @@ const branchIds = Object.keys(branches) as BranchId[];
           <div>
             <p class="eyebrow">Творческие события</p>
             <h1 class="headline mt-5">Праздники и мастер-классы</h1>
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">В центре проводят детские праздники и мастер-классы. Подходящий формат выбирается в разговоре с учётом повода и интересов детей.</p>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-muted md:text-xl">В центре проводят праздники для детей и семей, творческие мастер-классы для детей и взрослых и мероприятия во время каникул. Подходящий формат выбирается в разговоре.</p>
             <div class="mt-8 flex flex-wrap gap-4">
               <button class="button-primary" type="button" data-open-lead-form data-interest="Праздник или мастер-класс">Оставить заявку</button>
               <a class="button-secondary" href="tel:+79193335835">Позвонить</a>
@@ -35,17 +35,27 @@ const branchIds = Object.keys(branches) as BranchId[];
     <section class="section-space bg-[#fffdf6]" aria-labelledby="event-formats-title">
       <div class="container-site">
         <p class="eyebrow">Форматы</p>
-        <h2 id="event-formats-title" class="headline mt-4">Выберите повод для встречи</h2>
+        <h2 id="event-formats-title" class="headline mt-4">События для детей и взрослых</h2>
         <div class="mt-10 grid gap-6 md:grid-cols-2">
           <article class="paper-card rounded-[2rem] bg-[#f6ced1] p-7 md:p-10">
             <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">★</span>
-            <h3 class="mt-6 text-3xl font-black">Детские праздники</h3>
-            <p class="mt-4 text-lg leading-8 text-muted">Формат праздника обсуждается заранее: центр помогает выбрать подходящий вариант для события.</p>
+            <h3 class="mt-6 text-3xl font-black">Праздники для детей и семей</h3>
+            <p class="mt-4 text-lg leading-8 text-muted">Формат праздника обсуждается заранее с учётом повода, возраста участников и интересов семьи.</p>
           </article>
           <article class="paper-card rounded-[2rem] bg-[#ffe0ad] p-7 md:p-10">
             <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">✦</span>
-            <h3 class="mt-6 text-3xl font-black">Мастер-классы</h3>
+            <h3 class="mt-6 text-3xl font-black">Мастер-классы для детей</h3>
             <p class="mt-4 text-lg leading-8 text-muted">Творческие встречи с разными материалами и техниками. Конкретный формат подбирается при разговоре.</p>
+          </article>
+          <article class="paper-card rounded-[2rem] bg-[#e5dcef] p-7 md:p-10">
+            <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">✎</span>
+            <h3 class="mt-6 text-3xl font-black">Мастер-классы для взрослых</h3>
+            <p class="mt-4 text-lg leading-8 text-muted">Творческие встречи для взрослых, которые хотят попробовать разные материалы и техники.</p>
+          </article>
+          <article class="paper-card rounded-[2rem] bg-[#d8ead8] p-7 md:p-10">
+            <span class="grid size-14 place-items-center rounded-2xl bg-white text-2xl" aria-hidden="true">☀</span>
+            <h3 class="mt-6 text-3xl font-black">Каникулярные мероприятия</h3>
+            <p class="mt-4 text-lg leading-8 text-muted">Во время каникул центр проводит отдельные мероприятия. Актуальные форматы можно узнать по телефону или через заявку.</p>
           </article>
         </div>
       </div>

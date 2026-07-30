@@ -11,12 +11,12 @@ const { program, index } = Astro.props;
 const categoryTone = programCategoryTone[program.category];
 const categorySymbols = {
   'Развитие и учёба': 'Aa',
-  'Языки': 'A',
-  'Логика и наука': '⚗',
+  'Логика и проекты': '⚗',
   'Творчество': '✦',
-  'Движение': '↗',
+  'Танцы и фитнес': '↗',
   'Индивидуальные занятия': '●',
   'Для взрослых': '○',
+  'Каникулы и мастер-классы': '★',
 };
 const ageLabel = getProgramAgeLabel(program);
 const branchLabel = program.branches.length === 2
@@ -42,7 +42,7 @@ const detailsHref = `/programs/${program.slug}/`;
     index % 2 ? 'rotate-[.25deg]' : 'rotate-[-.25deg]',
   ]}
   data-program-card
-  data-category={program.category}
+  data-categories={program.categoryIds.join('|')}
   data-branches={program.branches.join(',')}
 >
   <div class:list={['absolute inset-x-5 top-0 h-1.5 rounded-b-full', categoryTone.surface]} aria-hidden="true"></div>

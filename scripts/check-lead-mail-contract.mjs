@@ -30,6 +30,8 @@ const requiredFragments = [
   '$messageBody = implode("\\r\\n", $messageLines);',
   "$sendmailParameters = '-f' . $sender;",
   'mb_encode_mimeheader($subject',
+  "['phone', 'max']",
+  "'max' => 'MAX'",
 ];
 
 const forbiddenFragments = [
@@ -48,6 +50,8 @@ const forbiddenFragments = [
   "'X-Mailer:",
   'implode(PHP_EOL, $messageLines)',
   'mail($recipient, $encodedSubject, $messageBody, $headers',
+  "'telegram'",
+  'Telegram',
 ];
 
 const failures = [

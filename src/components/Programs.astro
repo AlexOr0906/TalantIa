@@ -1,45 +1,18 @@
----
-import { getProgramAgeLabel, programs } from '../data/programs';
-import { programCategoryTone } from '../data/program-visuals';
-const featuredPrograms = programs.filter((program) => program.featured);
-const symbols = ['✎','A','♟','✂','Aa','⚗','▶','✦'];
-const ageLabel = (program: (typeof programs)[number]) => getProgramAgeLabel(program);
----
-<section id="programs" class="section-space border-y-2 border-[#d3bd92] bg-[#fffdf6]">
+<section id="programs" class="border-y-2 border-[#d3bd92] bg-[#fffdf6] py-12 md:py-16">
   <div class="container-site">
-    <div class="max-w-2xl"><p class="eyebrow">Популярные направления</p><h2 class="headline mt-4">Найдите занятие, которое увлечёт ребёнка</h2><p class="mt-5 text-lg leading-8 text-muted">Выберите направление по возрасту и интересам ребёнка.</p></div>
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {featuredPrograms.map((program, index) => (
-        <article class:list={["paper-card group min-h-80 flex-col rounded-[1.75rem] bg-cream p-5 transition hover:-translate-y-1", index < 4 ? 'flex' : 'hidden sm:flex', index % 2 ? 'rotate-[.5deg]' : 'rotate-[-.5deg]']}>
-          <div class="flex items-start justify-between gap-3">
-            <span class:list={["rounded-full px-3 py-1.5 text-xs font-extrabold", programCategoryTone[program.category].label]}>{program.category}</span>
-            {!program.cardImage && <span class="grid size-12 place-items-center rounded-2xl bg-white text-2xl font-black text-brand shadow-sm" aria-hidden="true">{symbols[index]}</span>}
-          </div>
-          {program.cardImage && <div class:list={['mt-4 aspect-[16/9] overflow-hidden rounded-2xl p-2', programCategoryTone[program.category].surface]}><img src={program.cardImage.src} alt={program.cardImage.alt} width={program.cardImage.width} height={program.cardImage.height} class="h-full w-full object-contain" loading="lazy" decoding="async" /></div>}
-          <h3 class="mt-5 text-2xl font-black tracking-tight">{program.title}</h3>
-          {ageLabel(program) && <p class="mt-2 text-sm font-bold text-brand">{ageLabel(program)}</p>}
-          <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>
-          <a class="mt-auto flex min-h-11 items-center gap-2 pt-5 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href={`/programs/${program.slug}/`} aria-label={`Подробнее: ${program.title}`}>Подробнее</a>
-        </article>
-      ))}
-    </div>
-    <details class="mt-6 sm:hidden">
-      <summary class="button-secondary mx-auto cursor-pointer list-none px-6 text-center marker:content-none">Показать все направления</summary>
-      <div class="mt-6 grid gap-4">
-      {featuredPrograms.slice(4).map((program, index) => (
-          <article class:list={["paper-card group flex min-h-80 flex-col rounded-[1.75rem] bg-cream p-5 transition hover:-translate-y-1", index % 2 ? 'rotate-[.5deg]' : 'rotate-[-.5deg]']}>
-            <div class="flex items-start justify-between gap-3">
-              <span class:list={["rounded-full px-3 py-1.5 text-xs font-extrabold", programCategoryTone[program.category].label]}>{program.category}</span>
-              {!program.cardImage && <span class="grid size-12 place-items-center rounded-2xl bg-white text-2xl font-black text-brand shadow-sm" aria-hidden="true">{symbols[index + 4]}</span>}
-            </div>
-            {program.cardImage && <div class:list={['mt-4 aspect-[16/9] overflow-hidden rounded-2xl p-2', programCategoryTone[program.category].surface]}><img src={program.cardImage.src} alt={program.cardImage.alt} width={program.cardImage.width} height={program.cardImage.height} class="h-full w-full object-contain" loading="lazy" decoding="async" /></div>}
-            <h3 class="mt-5 text-2xl font-black tracking-tight">{program.title}</h3>
-            {ageLabel(program) && <p class="mt-2 text-sm font-bold text-brand">{ageLabel(program)}</p>}
-            <p class="mt-4 text-sm leading-6 text-muted">{program.shortDescription}</p>
-            <a class="mt-auto flex min-h-11 items-center gap-2 pt-5 font-extrabold text-brand after:content-['→'] hover:text-brand-dark" href={`/programs/${program.slug}/`} aria-label={`Подробнее: ${program.title}`}>Подробнее</a>
-          </article>
-        ))}
+    <div class="paper-card relative overflow-hidden rounded-[2rem] bg-cream p-7 md:p-10 lg:grid lg:grid-cols-[1fr_auto] lg:items-end lg:gap-12 lg:p-12">
+      <div class="absolute -right-10 -top-14 size-40 rounded-full border-[18px] border-sky/25" aria-hidden="true"></div>
+      <div class="absolute bottom-5 right-36 hidden h-4 w-24 -rotate-3 rounded-full bg-leaf/40 lg:block" aria-hidden="true"></div>
+      <div class="relative max-w-3xl">
+        <p class="eyebrow">Направления занятий</p>
+        <h2 class="headline mt-4">Найдите занятие, которое подойдёт вашему ребёнку</h2>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-muted">
+          В центре есть учебные, творческие, развивающие, индивидуальные и двигательные направления для разных интересов.
+        </p>
       </div>
-    </details>
+      <a class="button-primary relative mt-8 w-full sm:w-auto lg:mt-0" href="/programs/">
+        Найти направление <span aria-hidden="true">→</span>
+      </a>
+    </div>
   </div>
 </section>

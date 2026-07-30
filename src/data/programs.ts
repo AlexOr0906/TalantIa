@@ -13,12 +13,12 @@ export type ContentStatus = 'confirmed' | 'conflicting' | 'draft';
 
 export type ProgramCategory =
   | 'Развитие и учёба'
-  | 'Языки'
-  | 'Логика и наука'
+  | 'Логика и проекты'
   | 'Творчество'
-  | 'Движение'
+  | 'Танцы и фитнес'
   | 'Индивидуальные занятия'
-  | 'Для взрослых';
+  | 'Для взрослых'
+  | 'Каникулы и мастер-классы';
 
 export interface AgeGroup {
   minAge: number;
@@ -66,6 +66,7 @@ export interface Program {
   /** Draft copy must be confirmed by the owner before publication. */
   shortDescriptionStatus?: 'draft' | 'confirmed';
   category: ProgramCategory;
+  categoryIds: ProgramCategory[];
   ageGroups: AgeGroup[];
   branches: BranchId[];
   primaryBranch?: BranchId;
@@ -141,12 +142,12 @@ export const getProgramAgeLabel = (program: Program, capitalize = false): string
 
 export const programCategories: ProgramCategory[] = [
   'Развитие и учёба',
-  'Языки',
-  'Логика и наука',
+  'Логика и проекты',
   'Творчество',
-  'Движение',
+  'Танцы и фитнес',
   'Индивидуальные занятия',
   'Для взрослых',
+  'Каникулы и мастер-классы',
 ];
 
 export const programs: Program[] = [
@@ -158,6 +159,7 @@ export const programs: Program[] = [
     shortDescription: 'Развивающие задания и творчество в одном занятии.',
     shortDescriptionStatus: 'confirmed',
     category: 'Развитие и учёба',
+    categoryIds: ['Развитие и учёба'],
     ageGroups: [{ minAge: 3, maxAge: 7, source: 'current-vk-card' }],
     ageVariants: [
       {
@@ -205,6 +207,7 @@ export const programs: Program[] = [
     shortDescription: 'Готовимся к школьному формату: развиваем речь, внимание, память и мышление, знакомимся с чтением, письмом и математикой.',
     shortDescriptionStatus: 'confirmed',
     category: 'Развитие и учёба',
+    categoryIds: ['Развитие и учёба'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Занятия помогают ребёнку подготовиться к школьному формату: развивать речь, внимание, память и мышление, знакомиться с основами чтения, письма и математики, учиться слушать педагога и самостоятельно выполнять задания.',
@@ -220,7 +223,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/english-illustration.webp', alt: 'Дети держат карточки с английскими буквами', width: 320, height: 320 },
     shortDescription: 'Знакомимся с языком через учебные и игровые форматы.',
     shortDescriptionStatus: 'draft',
-    category: 'Языки',
+    category: 'Развитие и учёба',
+    categoryIds: ['Развитие и учёба', 'Индивидуальные занятия'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'На занятиях дети знакомятся с английской речью через игры и практические задания, а школьники работают с лексикой, грамматикой, чтением и общением.',
@@ -238,6 +242,7 @@ export const programs: Program[] = [
     shortDescription: 'Знакомимся с буквами, учимся складывать слоги и готовимся к первым самостоятельным текстам.',
     shortDescriptionStatus: 'confirmed',
     category: 'Развитие и учёба',
+    categoryIds: ['Развитие и учёба'],
     ageGroups: [{ minAge: 5, maxAge: 7, source: 'current-vk-card' }],
     ageVariants: [
       {
@@ -271,7 +276,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/dance-gymnastics-illustration.webp', alt: 'Девочки выполняют танцевальные и гимнастические движения', width: 320, height: 320 },
     shortDescription: 'Работаем с движением, координацией и чувством ритма.',
     shortDescriptionStatus: 'draft',
-    category: 'Движение',
+    category: 'Танцы и фитнес',
+    categoryIds: ['Танцы и фитнес'],
     ageGroups: fromAge(3),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Занятия объединяют основы хореографии, гимнастики и общей физической подготовки. Дети осваивают движения и танцевальные связки, работают с координацией, ритмом и пластикой.',
@@ -286,7 +292,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/chess-illustration.webp', alt: 'Ребёнок играет в шахматы', width: 320, height: 320 },
     shortDescription: 'Знакомимся с игрой и учимся обдумывать свои решения.',
     shortDescriptionStatus: 'draft',
-    category: 'Логика и наука',
+    category: 'Логика и проекты',
+    categoryIds: ['Развитие и учёба', 'Логика и проекты'],
     ageGroups: fromAge(5),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Дети знакомятся с правилами игры, шахматными фигурами и основными комбинациями, учатся анализировать позицию и продумывать свои действия.',
@@ -310,7 +317,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/science-lab-illustration.webp', alt: 'Юная исследовательница проводит опыт за лабораторным столом', width: 320, height: 320 },
     shortDescription: 'В игровой форме знакомимся с естественными науками, проводим опыты и учимся анализировать наблюдения.',
     shortDescriptionStatus: 'confirmed',
-    category: 'Логика и наука',
+    category: 'Логика и проекты',
+    categoryIds: ['Логика и проекты'],
     ageGroups: fromAge(6),
     branches: ['branch-1'],
     longDescription: 'На занятиях дети в игровой форме знакомятся с естественными науками, проводят опыты, наблюдают явления, задают вопросы и учатся анализировать результаты.',
@@ -328,7 +336,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/robotics-illustration.webp', alt: 'Ребёнок держит собранного робота', width: 320, height: 320 },
     shortDescription: 'Собираем модели и знакомимся с основами программирования на базе LEGO Education WeDo 2.0.',
     shortDescriptionStatus: 'confirmed',
-    category: 'Логика и наука',
+    category: 'Логика и проекты',
+    categoryIds: ['Логика и проекты'],
     ageGroups: [{ minAge: 4, maxAge: 12, source: 'current-vk-card' }],
     branches: ['branch-1', 'branch-2'],
     longDescription: 'На занятиях дети знакомятся с механикой и робототехникой, собирают модели по схемам и создают для них простые программы.',
@@ -344,7 +353,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/calligraphy-illustration.webp', alt: 'Ребёнок пишет за столом', width: 320, height: 320 },
     shortDescription: 'Работаем над аккуратным письмом, постановкой руки и почерком.',
     shortDescriptionStatus: 'draft',
-    category: 'Развитие и учёба',
+    category: 'Индивидуальные занятия',
+    categoryIds: ['Индивидуальные занятия'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     formats: ['group', 'individual'],
@@ -362,6 +372,7 @@ export const programs: Program[] = [
     shortDescription: 'Пробуем придумывать идеи, работать в кадре и создавать медиаматериалы.',
     shortDescriptionStatus: 'draft',
     category: 'Творчество',
+    categoryIds: ['Творчество'],
     ageGroups: fromAge(6),
     branches: ['branch-1'],
     longDescription: 'На занятиях ребята придумывают сценарии, снимают и монтируют видеоролики, знакомятся с фото- и видеотехникой и программами для создания контента.',
@@ -379,6 +390,7 @@ export const programs: Program[] = [
     shortDescription: 'Выполняем упражнения на чтение, внимание, память и работу с текстом.',
     shortDescriptionStatus: 'draft',
     category: 'Развитие и учёба',
+    categoryIds: ['Развитие и учёба', 'Индивидуальные занятия'],
     ageGroups: fromAge(5),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Занятия объединяют упражнения на чтение, речь, внимание, память, мышление и понимание прочитанного.',
@@ -396,6 +408,7 @@ export const programs: Program[] = [
     shortDescription: 'Знакомимся с техниками плетения и создаём работы своими руками.',
     shortDescriptionStatus: 'draft',
     category: 'Творчество',
+    categoryIds: ['Творчество'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'Дети создают украшения и фигурки из бисера, знакомятся с базовыми и более сложными техниками плетения.',
@@ -412,6 +425,7 @@ export const programs: Program[] = [
     shortDescription: 'Регулярные занятия рисованием и знакомство с разными художественными техниками',
     shortDescriptionStatus: 'confirmed',
     category: 'Творчество',
+    categoryIds: ['Творчество'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     primaryBranch: 'branch-2',
@@ -441,6 +455,7 @@ export const programs: Program[] = [
     shortDescription: 'Осваиваем рисование песком и создаём визуальные истории.',
     shortDescriptionStatus: 'draft',
     category: 'Творчество',
+    categoryIds: ['Творчество', 'Для взрослых'],
     ageGroups: fromAge(6),
     branches: ['branch-1'],
     longDescription: 'На занятиях участники создают изображения песком на световом столе и знакомятся с выразительными возможностями песочной анимации.',
@@ -468,6 +483,7 @@ export const programs: Program[] = [
     shortDescription: 'Знакомимся с художниками и создаём собственную работу на каждой встрече.',
     shortDescriptionStatus: 'confirmed',
     category: 'Творчество',
+    categoryIds: ['Творчество'],
     ageGroups: [{ minAge: 6, maxAge: 14, source: 'current-vk-card' }],
     branches: ['branch-1', 'branch-2'],
     duration: '5 встреч по 90 минут',
@@ -483,6 +499,7 @@ export const programs: Program[] = [
     shortDescription: 'Творческие занятия и мастер-классы с разными материалами и техниками',
     shortDescriptionStatus: 'confirmed',
     category: 'Творчество',
+    categoryIds: ['Творчество', 'Для взрослых'],
     ageGroups: fromAge(6),
     branches: ['branch-1', 'branch-2'],
     accent: 'gold',
@@ -495,6 +512,7 @@ export const programs: Program[] = [
     shortDescription: 'Индивидуальная работа над учебными и исследовательскими проектами: от идеи до представления результата',
     shortDescriptionStatus: 'confirmed',
     category: 'Индивидуальные занятия',
+    categoryIds: ['Развитие и учёба', 'Логика и проекты', 'Индивидуальные занятия'],
     ageGroups: fromAge(7),
     branches: ['branch-1'],
     formats: ['individual'],
@@ -510,7 +528,8 @@ export const programs: Program[] = [
     cardImage: { src: '/images/vk/card-illustrations/fitness-for-moms-illustration.webp', alt: 'Женщина занимается фитнесом с гантелями', width: 320, height: 320 },
     shortDescription: 'Занятия движением и физической активностью для взрослых.',
     shortDescriptionStatus: 'draft',
-    category: 'Для взрослых',
+    category: 'Танцы и фитнес',
+    categoryIds: ['Танцы и фитнес', 'Для взрослых'],
     branches: ['branch-1'],
     audience: 'adults',
     accent: 'coral',
@@ -524,7 +543,8 @@ export const programs: Program[] = [
     title: 'Гимнастика для ума — экспресс-курс',
     shortDescription: 'Экспресс-курс с упражнениями на внимание, память и мышление.',
     shortDescriptionStatus: 'draft',
-    category: 'Развитие и учёба',
+    category: 'Логика и проекты',
+    categoryIds: ['Логика и проекты'],
     ageGroups: fromAge(6),
     branches: ['branch-1'],
     formats: ['express'],
@@ -538,6 +558,7 @@ export const programs: Program[] = [
     shortDescription: 'Индивидуальная работа со специалистом по развитию речи.',
     shortDescriptionStatus: 'draft',
     category: 'Индивидуальные занятия',
+    categoryIds: ['Развитие и учёба', 'Индивидуальные занятия'],
     ageGroups: fromAge(5),
     branches: ['branch-1', 'branch-2'],
     longDescription: 'На консультации оценивают особенности речи ребёнка и определяют подходящий план дальнейших занятий.',

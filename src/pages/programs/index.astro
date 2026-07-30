@@ -60,7 +60,7 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
           <div class="flex flex-wrap gap-2">
             {filters.map((filter, index) => (
               <button
-                class="min-h-11 rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
+                class="min-h-11 max-w-full whitespace-normal rounded-full border-2 border-[#bda982] bg-white px-4 py-2.5 text-left text-sm font-extrabold leading-5 text-ink transition hover:border-brand hover:text-brand aria-pressed:border-[#792b25] aria-pressed:bg-brand aria-pressed:text-white"
                 type="button"
                 data-category-filter={filter}
                 aria-pressed={index === 0 ? 'true' : 'false'}
@@ -87,11 +87,27 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
 
         <div class="mt-5 flex min-h-11 items-center gap-4">
           <button class="button-secondary" type="button" data-reset-filters hidden>Сбросить фильтры</button>
-          <p class="sr-only" aria-live="polite" data-filter-status>Показано направлений: {catalogPrograms.length}</p>
+          <p class="sr-only" aria-live="polite" data-filter-status>Показано элементов каталога: {catalogPrograms.length + 1}</p>
         </div>
 
         <div id="program-grid" class="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3" data-program-grid>
           {catalogPrograms.map((program, index) => <CatalogProgramCard program={program} index={index} />)}
+          <article
+            class="paper-card relative flex min-h-[24rem] flex-col overflow-hidden rounded-[1.75rem] border-2 border-dashed border-brand bg-[#fff8df] p-5 md:p-6"
+            data-event-card
+            data-categories="Каникулы и мастер-классы"
+            data-branches="branch-1,branch-2"
+          >
+            <div class="absolute -right-8 -top-8 size-28 rounded-full border-[14px] border-warm/45" aria-hidden="true"></div>
+            <span class="relative w-fit rounded-full bg-[#ffe6b6] px-3 py-1.5 text-xs font-extrabold text-[#7a4a14]">События и мастер-классы</span>
+            <div class="relative mt-6 grid size-20 place-items-center rounded-[1.5rem] bg-white text-4xl shadow-sm" aria-hidden="true">★</div>
+            <h2 class="relative mt-6 text-2xl font-black leading-tight tracking-tight">Каникулы и мастер-классы</h2>
+            <p class="relative mt-4 text-sm leading-6 text-muted">Праздники для детей и семей, творческие встречи для детей и взрослых и мероприятия во время каникул.</p>
+            <p class="relative mt-4 text-xs font-black uppercase tracking-[.1em] text-brand">Не регулярный курс</p>
+            <div class="relative mt-auto flex justify-end pt-6">
+              <a class="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-brand px-4 py-2 font-extrabold text-brand after:content-['→'] hover:bg-brand hover:text-white" href="/events/">Подробнее</a>
+            </div>
+          </article>
         </div>
         <div class="paper-card mt-10 rounded-[1.75rem] bg-cream p-7 text-center md:p-10" data-empty-state hidden>
           <p class="text-xl font-black">По выбранным параметрам направлений не найдено</p>
@@ -124,7 +140,7 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
   const catalog = document.querySelector<HTMLElement>('[data-program-catalog]');
   const categoryButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-category-filter]') ?? []);
   const branchButtons = Array.from(catalog?.querySelectorAll<HTMLButtonElement>('[data-branch-filter]') ?? []);
-  const cards = Array.from(catalog?.querySelectorAll<HTMLElement>('[data-program-card]') ?? []);
+  const cards = Array.from(catalog?.querySelectorAll<HTMLElement>('[data-program-card], [data-event-card]') ?? []);
   const status = catalog?.querySelector<HTMLElement>('[data-filter-status]');
   const resetButton = catalog?.querySelector<HTMLButtonElement>('[data-reset-filters]');
   const emptyState = catalog?.querySelector<HTMLElement>('[data-empty-state]');
@@ -135,7 +151,8 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
   const applyFilters = () => {
     let visibleCount = 0;
     cards.forEach((card) => {
-      const categoryMatches = selectedCategory === 'Все' || card.dataset.category === selectedCategory;
+      const cardCategories = (card.dataset.categories ?? '').split('|').filter(Boolean);
+      const categoryMatches = selectedCategory === 'Все' || cardCategories.includes(selectedCategory);
       const cardBranches = (card.dataset.branches ?? '').split(',');
       const branchMatches = selectedBranch === 'all' || cardBranches.includes(selectedBranch);
       const visible = categoryMatches && branchMatches;
@@ -143,7 +160,7 @@ const branchFilters: Array<{ label: string; value: 'all' | BranchId }> = [
       if (visible) visibleCount += 1;
     });
 
-    if (status) status.textContent = `Показано направлений: ${visibleCount}`;
+    if (status) status.textContent = `Показано элементов каталога: ${visibleCount}`;
     if (resetButton) resetButton.hidden = selectedCategory === 'Все' && selectedBranch === 'all';
     if (emptyState) emptyState.hidden = visibleCount !== 0;
   };
