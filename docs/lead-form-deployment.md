@@ -18,6 +18,7 @@
   "name": "Имя",
   "phone": "+79193335835",
   "interest": "Арт-студия",
+  "childAge": "7 лет",
   "contactMethod": "phone",
   "consent": true,
   "page": "/programs/art-studiya/",

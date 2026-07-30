@@ -273,6 +273,7 @@ if ($startedAt <= 0 || $elapsedMs < MIN_FILL_TIME_MS || $elapsedMs > MAX_FILL_TI
 $name = clean_text($payload['name'] ?? '', 100);
 $phone = normalize_phone($payload['phone'] ?? null);
 $interest = clean_text($payload['interest'] ?? '', 160);
+$childAge = clean_text($payload['childAge'] ?? '', 30);
 $contactMethod = clean_text($payload['contactMethod'] ?? '', 20);
 $page = clean_text($payload['page'] ?? '/', 200);
 $consent = ($payload['consent'] ?? false) === true;
@@ -365,6 +366,7 @@ $messageLines = [
     'Имя: ' . ($name !== '' ? $name : 'Не указано'),
     'Телефон: ' . $phone,
     'Направление: ' . ($interest !== '' ? $interest : 'Не указано'),
+    'Возраст ребёнка: ' . ($childAge !== '' ? $childAge : 'Не указан'),
     'Удобный способ связи: ' . $contactLabels[$contactMethod],
     'Страница отправки: ' . $page,
     'Дата и время: ' . date('d.m.Y H:i:s') . ' (Челябинск)',
